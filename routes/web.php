@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Market\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Admin
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
+
+    Route::prefix('market')->group(function () {
+        Route::resource('/category', CategoryController::class);
+    });
 });
