@@ -18,10 +18,10 @@
                 <section class="sidebar-dropdown">
                     <a href="{{ route('category.index') }}">دسته بندی</a>
                     <a href="#">فرم کالا</a>
-                    <a href="#">برندها</a>
+                    <a href="{{ route('brand.index') }}">برندها</a>
                     <a href="#">کالاها</a>
                     <a href="#">انبار</a>
-                    <a href="#">نظرات</a>
+                    <a href="{{ route('comment.index') }}">نظرات</a>
                 </section>
             </section>
 
@@ -62,13 +62,13 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="#">کپن تخفیف</a>
-                    <a href="#">تخفیف عمومی</a>
-                    <a href="#">فروش شگفت انگیز</a>
+                    <a href="{{ route('admin.market.discount.copan') }}">کوپن تخفیف</a>
+                    <a href="{{ route('admin.market.discount.commonDiscount') }}">تخفیف عمومی</a>
+                    <a href="{{ route('admin.market.discount.amazingSale') }}">فروش شگفت انگیز</a>
                 </section>
             </section>
 
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('delivery.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>روش های ارسال</span>
             </a>
