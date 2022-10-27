@@ -17,10 +17,10 @@
                 </section>
                 <section class="sidebar-dropdown">
                     <a href="{{ route('category.index') }}">دسته بندی</a>
-                    <a href="#">فرم کالا</a>
+                    <a href="{{ route('property.index') }}">فرم کالا</a>
                     <a href="{{ route('brand.index') }}">برندها</a>
-                    <a href="#">کالاها</a>
-                    <a href="#">انبار</a>
+                    <a href="{{ route('product.index') }}">کالاها</a>
+                    <a href="{{ route('store.index') }}">انبار</a>
                     <a href="{{ route('comment.index') }}">نظرات</a>
                 </section>
             </section>
@@ -32,12 +32,12 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="#"> جدید</a>
-                    <a href="#">در حال ارسال</a>
-                    <a href="#">پرداخت نشده</a>
-                    <a href="#">باطل شده</a>
-                    <a href="#">مرجوعی</a>
-                    <a href="#">تمام سفارشات</a>
+                    <a href="{{ route('admin.market.order.newOrder') }}"> جدید</a>
+                    <a href="{{ route('admin.market.order.sending') }}">در حال ارسال</a>
+                    <a href="{{ route('admin.market.order.unpaid') }}">پرداخت نشده</a>
+                    <a href="{{ route('admin.market.order.canceled') }}">باطل شده</a>
+                    <a href="{{ route('admin.market.order.returned') }}">مرجوعی</a>
+                    <a href="{{ route('admin.market.order.all') }}">تمام سفارشات</a>
                 </section>
             </section>
 
@@ -48,10 +48,10 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="#">تمام پرداخت ها</a>
-                    <a href="#">پرداخت های آنلاین</a>
-                    <a href="#">پرداخت های آفلاین</a>
-                    <a href="#">پرداخت در محل</a>
+                    <a href="{{ route('admin.market.payment.index') }}">تمام پرداخت ها</a>
+                    <a href="{{ route('admin.market.payment.index') }}">پرداخت های آنلاین</a>
+                    <a href="{{ route('admin.market.payment.index') }}">پرداخت های آفلاین</a>
+                    <a href="{{ route('admin.market.payment.index') }}">پرداخت در محل</a>
                 </section>
             </section>
 
@@ -76,7 +76,7 @@
 
 
             <section class="sidebar-part-title">بخش محتوی</section>
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
             </a>

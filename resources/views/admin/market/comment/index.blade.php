@@ -44,9 +44,9 @@
                                     <td>1</td>
                                     <td>293883</td>
                                     <td>حسن احمدی</td>
-                                    <th>3990</th>
-                                    <th>آیفون ۱۲</th>
-                                    <th>در انتظار تایید</th>
+                                    <td>3990</td>
+                                    <td>آیفون ۱۲</td>
+                                    <td>در انتظار تایید</td>
                                     <td class="text-left">
                                         <a href="{{ route('comment.show', 1) }}" class="btn btn-sm btn-info"><i
                                                 class="fa fa-eye mx-1"></i>نمایش</a>
@@ -59,9 +59,9 @@
                                     <td>2</td>
                                     <td>293883</td>
                                     <td>حسن احمدی</td>
-                                    <th>3990</th>
-                                    <th>آیفون ۱۲</th>
-                                    <th>تایید</th>
+                                    <td>3990</td>
+                                    <td>آیفون ۱۲</td>
+                                    <td>تایید</td>
                                     <td class="text-left">
                                         <a href="{{ route('comment.show', 1) }}" class="btn btn-sm btn-info"><i
                                                 class="fa fa-eye mx-1"></i>نمایش</a>
