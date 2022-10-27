@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>دسته بندی</title>
+    <title>پست ها</title>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="">خانه</a></li>
             <li class="breadcrumb-item"> <a href="">بخش محتوا</a></li>
-            <li class="breadcrumb-item active" aria-current="page"> دسته بندی</li>
+            <li class="breadcrumb-item active" aria-current="page"> پست ها</li>
         </ol>
     </nav>
 
@@ -18,10 +18,10 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش دسته بندی</h5>
+                    <h5>بخش پست ها</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('content.category.create') }}" class="btn btn-sm btn-primary">ایجاد دسته بندی</a>
+                        <a href="{{ route('post.create') }}" class="btn btn-sm btn-primary">ایجاد پست جدید</a>
                         <input type="text" class="form-control form-control-sm col-3" placeholder="جستجو">
                     </div>
                     <hr>
@@ -31,40 +31,18 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>نام دسته بندی</th>
-                                    <th>دسته والد</th>
+                                    <th>عنوان پست</th>
+                                    <th>دسته</th>
+                                    <th>تصویر</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>نمایشگر</td>
+                                    <td>چگونه از باطری موبایل نگهداری کنیم؟</td>
                                     <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
+                                    <td>تصویر</td>
                                     <td class="text-left">
                                         <a href="" class="btn btn-sm btn-warning"><i
                                                 class="fa fa-edit mx-1"></i>ویرایش</a>
