@@ -32,46 +32,40 @@
                                 <tr>
                                     <th>#</th>
                                     <th>نام دسته بندی</th>
-                                    <th>دسته والد</th>
+                                    <th>توضیحات</th>
+                                    <th>اسلاگ</th>
+                                    <th>تصویر</th>
+                                    <th>وضعیت</th>
+                                    <th>برچسپ ها</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
+                                @foreach ($postCategories as $postCategory)
+                                    <tr>
+                                        <td>{{ $postCategory->id }}</td>
+                                        <td>{{ $postCategory->name }}</td>
+                                        <td>{{ $postCategory->description }}</td>
+                                        <td>{{ $postCategory->slug }}</td>
+                                        <td>{{ $postCategory->image }}</td>
+                                        <td>
+                                            <input type="checkbox" class="form-check-inline"
+                                                @if ($postCategory->status === 1) checked @endif>
+                                        </td>
+                                        <td>{{ $postCategory->tags }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('content.category.edit', $postCategory->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <form action="{{ route('content.category.destroy', $postCategory->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash mx-1"></i>حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </section>

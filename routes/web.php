@@ -92,7 +92,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/product', ProductController::class);
 
         Route::get('/gallary', [GallaryController::class], 'index')->name('gallary.index');
-        Route::get('/gallary/store', [GallaryController::class], 'store')->name('gallary.store');
+        Route::post('/gallary/store', [GallaryController::class], 'store')->name('gallary.store');
         Route::get('/gallary/destroy/{id}', [GallaryController::class], 'destroy')->name('gallary.destroy');
 
         Route::resource('/property', PropertyController::class);
@@ -107,19 +107,19 @@ Route::prefix('admin')->group(function () {
         Route::prefix('category')->group(function () {
             Route::get('/', [ContentCategoryController::class, 'index'])->name('content.category.index');
             Route::get('/create', [ContentCategoryController::class, 'create'])->name('content.category.create');
-            Route::get('/store', [ContentCategoryController::class, 'store'])->name('content.category.store');
+            Route::post('/store', [ContentCategoryController::class, 'store'])->name('content.category.store');
             Route::get('/edit/{id}', [ContentCategoryController::class, 'edit'])->name('content.category.edit');
-            Route::get('/update/{id}', [ContentCategoryController::class, 'update'])->name('content.category.update');
-            Route::get('/destroy/{id}', [ContentCategoryController::class, 'destroy'])->name('content.category.destroy');
+            Route::put('/update/{id}', [ContentCategoryController::class, 'update'])->name('content.category.update');
+            Route::delete('/destroy/{id}', [ContentCategoryController::class, 'destroy'])->name('content.category.destroy');
         });
 
         Route::prefix('comment')->group(function () {
             Route::get('/', [ContentCommentController::class, 'index'])->name('content.comment.index');
             Route::get('/show', [ContentCommentController::class, 'show'])->name('content.comment.show');
-            Route::get('/store', [ContentCommentController::class, 'store'])->name('content.comment.store');
+            Route::post('/store', [ContentCommentController::class, 'store'])->name('content.comment.store');
             Route::get('/edit/{id}', [ContentCommentController::class, 'edit'])->name('content.comment.edit');
-            Route::get('/update/{id}', [ContentCommentController::class, 'update'])->name('content.comment.update');
-            Route::get('/destroy/{id}', [ContentCommentController::class, 'destroy'])->name('content.comment.destroy');
+            Route::put('/update/{id}', [ContentCommentController::class, 'update'])->name('content.comment.update');
+            Route::delete('/destroy/{id}', [ContentCommentController::class, 'destroy'])->name('content.comment.destroy');
         });
 
         Route::resource('/faq', FAQController::class);

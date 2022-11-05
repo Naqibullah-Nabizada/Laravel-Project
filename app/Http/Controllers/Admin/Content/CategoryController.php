@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Content\Category\StorePostCategoryRequest;
+use App\Http\Requests\Admin\Content\Category\UpdatePostCategoryRequest;
+use App\Models\Content\PostCategory;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.content.category.index');
+        $postCategories = PostCategory::orderBy('id', 'desc')->get();
+        return view('admin.content.category.index', compact('postCategories'));
     }
 
     /**
@@ -33,9 +37,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostCategoryRequest $request)
     {
-        //
+        $postCategories = $request->all();
+        $postCategories['image'] = 'image';
+        $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
+
+        PostCategory::create($postCategories);
+        return redirect()->route('content.category.index');
     }
 
     /**
@@ -57,7 +66,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $postCategory = PostCategory::findOrFail($id);
+        return view('admin.content.category.edit', compact('postCategory'));
     }
 
     /**
@@ -67,9 +77,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostCategoryRequest $request, $id)
     {
-        //
+        $postCategory = PostCategory::findOrFail($id);
+        $postCategory['image'] = 'image';
+        $postCategory->update([
+            'name' => $request->name,
+            'tags' => $request->tags,
+            'image' => $postCategory['image'],
+            'status' => $request->status,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('content.category.index');
     }
 
     /**
@@ -80,6 +100,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $postCategory = PostCategory::findOrFail($id);
+        $postCategory->destroy($id);
+        return redirect()->route('content.category.index');
     }
 }
