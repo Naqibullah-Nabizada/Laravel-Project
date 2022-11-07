@@ -44,7 +44,8 @@ class CategoryController extends Controller
         $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
 
         PostCategory::create($postCategories);
-        return redirect()->route('content.category.index');
+        return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');
+        // ->with('toast-success', 'دسته بندی جدید با موفقیت اضافه شد')->with('alert-section-success', 'دسته بندی جدید با موفقیت اضافه شد');
     }
 
     /**
@@ -102,6 +103,27 @@ class CategoryController extends Controller
     {
         $postCategory = PostCategory::findOrFail($id);
         $postCategory->destroy($id);
-        return redirect()->route('content.category.index');
+        return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی با موفقیت حذف شد');
+    }
+
+
+    public function status($id)
+    {
+
+        $postCategory = PostCategory::findOrFail($id);
+
+        $postCategory->status = $postCategory->status == 0 ? 1 : 0;
+
+        $result = $postCategory->save();
+
+        if ($result) {
+            if ($postCategory->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json(['status' => false]);
+        }
     }
 }

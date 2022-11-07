@@ -50,7 +50,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
 
-    // !Star of market
+    //! Start of market
 
     Route::prefix('market')->group(function () {
 
@@ -100,7 +100,7 @@ Route::prefix('admin')->group(function () {
     });
 
 
-    // !Start of Content
+    //! Start of Content
 
     Route::prefix('content')->group(function () {
 
@@ -111,6 +111,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/edit/{id}', [ContentCategoryController::class, 'edit'])->name('content.category.edit');
             Route::put('/update/{id}', [ContentCategoryController::class, 'update'])->name('content.category.update');
             Route::delete('/destroy/{id}', [ContentCategoryController::class, 'destroy'])->name('content.category.destroy');
+            Route::get('/status/{id}', [ContentCategoryController::class, 'status'])->name('content.category.status');
         });
 
         Route::prefix('comment')->group(function () {
@@ -129,7 +130,7 @@ Route::prefix('admin')->group(function () {
     });
 
 
-    // ! Start of Admin-User
+    //! Start of Admin-User
 
     Route::prefix('user')->group(function () {
         Route::resource('admin-user', AdminUserController::class);
@@ -139,7 +140,7 @@ Route::prefix('admin')->group(function () {
     });
 
 
-    // ! Start of Notify
+    //! Start of Notify
 
     Route::prefix('notify')->group(function () {
         Route::resource('email', EmailController::class);
@@ -147,7 +148,7 @@ Route::prefix('admin')->group(function () {
     });
 
 
-    // ! Start of Ticket
+    //! Start of Ticket
 
     Route::resource('/ticket', TicketController::class);
     Route::get('ticket/show', [TicketController::class, 'show'])->name('ticket.show');
@@ -156,17 +157,14 @@ Route::prefix('admin')->group(function () {
     Route::get('ticket/close-ticket', [TicketController::class, 'closeTicket'])->name('ticket.close-ticket');
 
 
-    // ! Start of Setting
+    //! Start of Setting
 
     Route::resource('setting', SettingController::class);
-
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');

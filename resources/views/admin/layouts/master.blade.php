@@ -25,6 +25,12 @@
 
     @include('admin.layouts.script')
     @yield('script')
+
+    @include('admin.alerts.sweetalert.success')
+    @include('admin.alerts.sweetalert.error')
+
+    @include('admin.alerts.toast.success')
+    @include('admin.alerts.toast.error')
 </body>
 
 </html>
