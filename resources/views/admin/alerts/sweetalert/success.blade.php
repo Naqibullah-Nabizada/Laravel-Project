@@ -3,7 +3,7 @@
         $(document).ready(function() {
             Swal.fire({
                 icon: 'success',
-                title: 'عملیات با موفقیت انجام شد',
+                title: 'اعلان موفقیت',
                 text: '{{ session('swal-success') }}',
                 confirmButtonText: 'باشه',
             });

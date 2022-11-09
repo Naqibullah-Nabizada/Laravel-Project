@@ -1,4 +1,4 @@
-{{-- @if (session('toast-success')) --}}
+@if (session('toast-success'))
     <section class="toast" data-delay="5000">
         <section class="toast-header">موفقیت</section>
         <section class="toast-body d-flex bg-success">
@@ -14,4 +14,4 @@
             $(".toast").toast('show');
         });
     </script>
-{{-- @endif --}}
+@endif

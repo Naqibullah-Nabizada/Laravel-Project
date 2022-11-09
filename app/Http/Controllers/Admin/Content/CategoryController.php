@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $postCategories = $request->all();
         $postCategories['image'] = 'image';
-        $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
+        // $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
 
         PostCategory::create($postCategories);
         return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');
@@ -90,7 +90,7 @@ class CategoryController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('content.category.index');
+        return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی با موفقیت ویرایش شد');
     }
 
     /**

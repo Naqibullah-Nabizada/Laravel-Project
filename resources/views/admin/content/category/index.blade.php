@@ -65,7 +65,7 @@
                                                 method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
                                                     <i class="fa fa-trash mx-1"></i>حذف</button>
                                             </form>
                                         </td>
@@ -99,14 +99,73 @@
                     if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
+                            successToast('دسته بندی با موفقیت غیر فعال شد');
                         } else {
                             element.prop('checked', false);
+                            successToast('دسته بندی با موفقیت غیر فعال شد');
                         }
                     } else {
                         element.prop('checked', elementValue);
+                        errorToast('مشکلی رخ داده است دوباره تلاش کنید!');
                     }
                 }
+
+                error: errorToast('ارتباط برقرار نشد!');
             });
+
+
+            function successToast(message) {
+
+                let successToastTag = `
+                    <section class="toast" data-delay="5000">
+                        <section class="toast-header">موفقیت</section>
+                            <section class="toast-body d-flex bg-success">
+                                <span class="ml-auto">{{ session('toast-success') }}</span>
+                                <button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </section>
+                        </section>
+                    <script>
+
+                    $(document).ready(function() {
+                        $(".toast").toast('show');
+                    })`;
+
+                $(".toast-wrapper").append(successToastTag);
+                $(".toast").toast('show').dealy(5000).queue(function() {
+                    $(this).remove();
+                });
+            }
+
+
+
+            function errorToast(message) {
+
+                let successToastTag = `
+                    <section class="toast" data-delay="5000">
+                        <section class="toast-header">موفقیت</section>
+                            <section class="toast-body d-flex bg-success">
+                                <span class="ml-auto">{{ session('toast-success') }}</span>
+                                <button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </section>
+                        </section>
+                    <script>
+
+                    $(document).ready(function() {
+                        $(".toast").toast('show');
+                    })`;
+
+                $(".toast-wrapper").append(successToastTag);
+                $(".toast").toast('show').dealy(5000).queue(function() {
+                    $(this).remove();
+                });
+            }
         }
     </script>
+
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
 @endsection
