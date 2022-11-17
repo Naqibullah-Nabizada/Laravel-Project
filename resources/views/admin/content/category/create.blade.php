@@ -45,7 +45,6 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
                                     <input type="hidden" name="tags" value="{{ old('tags') }}" id="tags">
-
                                     <select class="select2 form-control form-control-sm" id="select_tags" multiple></select>
                                     @error('tags')
                                         <p class="text-danger my-2">{{ $message }}</p>

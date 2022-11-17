@@ -53,6 +53,7 @@ class CategoryController extends Controller
             $postCategories['image'] = $result;
         }
 
+
         PostCategory::create($postCategories);
         return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');
         // ->with('toast-success', 'دسته بندی جدید با موفقیت اضافه شد')->with('alert-section-success', 'دسته بندی جدید با موفقیت اضافه شد');
