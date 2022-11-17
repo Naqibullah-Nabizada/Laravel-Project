@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin\Content;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\Category\StorePostCategoryRequest;
 use App\Http\Requests\Admin\Content\Category\UpdatePostCategoryRequest;
+use App\Http\Services\Image\ImageService;
 use App\Models\Content\PostCategory;
+use Directory;
 use Illuminate\Support\Str;
+use League\Flysystem\DirectoryListing;
 
 class CategoryController extends Controller
 {
@@ -37,11 +40,19 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostCategoryRequest $request)
+    public function store(StorePostCategoryRequest $request, ImageService $imageService)
     {
         $postCategories = $request->all();
-        $postCategories['image'] = 'image';
-        // $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
+
+        if ($request->hasFile('image')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+        if ($result === false){
+            return redirect()->route('content.category.index')->with('swal-error', 'آپلود عکس انجام نشد');
+        }
+
+        $postCategories['image'] = $result;
 
         PostCategory::create($postCategories);
         return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');

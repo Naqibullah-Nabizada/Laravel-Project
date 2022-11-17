@@ -50,7 +50,11 @@
                                         <td>{{ $postCategory->name }}</td>
                                         <td>{{ $postCategory->description }}</td>
                                         <td>{{ $postCategory->slug }}</td>
-                                        <td>{{ $postCategory->image }}</td>
+                                        <td>
+                                            <img src="{{ asset($postCategory->image['indexArray'][$postCategory->image['currentImage']]) }}"
+                                                alt="{{ $postCategory->name }}" width="60" height="30"
+                                                style="object-fit: cover">
+                                        </td>
                                         <td>
                                             <input type="checkbox" class="form-check-inline" id="{{ $postCategory->id }}"
                                                 onchange="changeStatus({{ $postCategory->id }})"
@@ -167,5 +171,4 @@
     </script>
 
     @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
-
 @endsection
