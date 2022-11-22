@@ -39,8 +39,18 @@ class CategoryController extends Controller
     public function store(StorePostCategoryRequest $request)
     {
         $postCategories = $request->all();
-        $postCategories['image'] = 'image';
-        // $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
+
+        if ($request->hasFile('image')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+
+        if ($result === false) {
+
+            return redirect()->route('content.category.index')->with('swal-error', 'آپلود عکس انجام نشد');
+        }
+
+        $postCategories['image'] = $result;
 
         PostCategory::create($postCategories);
         return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');
@@ -96,11 +106,10 @@ class CategoryController extends Controller
                 return redirect()->route('content.category.index')->with('swal-error', 'آپلود عکس انجام نشد');
             }
         } else {
-            if(isset($postCategory['currentImage']) && !empty($postCategory->image)){
+            if (isset($postCategory['currentImage']) && !empty($postCategory->image)) {
                 $image = $postCategory->image;
                 $image['currentImage'] = $postCategory['currentImage'];
                 $postCategory['image'] = $image;
-
             }
         }
 

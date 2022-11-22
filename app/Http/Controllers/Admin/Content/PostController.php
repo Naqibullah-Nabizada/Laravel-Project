@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\Content\Post\UpdatePostRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -19,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('id', 'desc')->get();
         return view('admin.content.post.index', compact('posts'));
     }
 

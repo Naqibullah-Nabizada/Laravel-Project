@@ -44,6 +44,7 @@
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
+                                    <input type="hidden" name="tags" class="form-control form-control-sm" placeholder="برچسپ ها" value="{{ old('tags') }}" id="tags">
                                     <input type="hidden" name="tags" class="form-control form-control-sm"
                                         placeholder="برچسپ ها" value="{{ old('tags') }}" id="tags">
 
