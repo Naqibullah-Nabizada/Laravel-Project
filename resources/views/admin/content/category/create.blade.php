@@ -27,52 +27,61 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('content.category.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                        <form action="{{ route('content.category.store') }}" method="POST" enctype="multipart/form-data"
+                            id="form">
                             @csrf
                             <section class="row">
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام دسته</label>
-                                    <input type="text" name="name" class="form-control form-control-sm @error('name') is-invalid @enderror" placeholder="نام دسته" value="{{ old('name') }}">
+                                    <input type="text" name="name"
+                                        class="form-control form-control-sm @error('name') is-invalid @enderror"
+                                        placeholder="نام دسته" value="{{ old('name') }}">
                                     @error('name')
-                                        <p class="text-danger my-2">{{ $message}}</p>
+                                        <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
-                                    <input type="hidden" name="tags" class="form-control form-control-sm" placeholder="برچسپ ها" value="{{ old('tags') }}" id="tags">
+                                    <input type="hidden" name="tags" class="form-control form-control-sm"
+                                        placeholder="برچسپ ها" value="{{ old('tags') }}" id="tags">
+
                                     <select class="select2 form-control form-control-sm" id="select_tags" multiple></select>
                                     @error('tags')
-                                        <p class="text-danger my-2">{{ $message}}</p>
+                                        <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">وضعیت</label>
-                                    <select name="status" class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <select name="status"
+                                        class="form-control form-control-sm @error('status') is-invalid @enderror">
+                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        </option>
+                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        </option>
                                     </select>
                                     @error('status')
-                                    <p class="text-danger my-2">{{ $message}}</p>
+                                        <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
-
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">تصویر</label>
-                                    <input type="file" name="image" class="form-control form-control-sm @error('image') is-invalid @enderror">
+                                    <input type="file" name="image"
+                                        class="form-control form-control-sm @error('image') is-invalid @enderror">
                                     @error('image')
-                                    <p class="text-danger my-2">{{ $message}}</p>
+                                        <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div class="form-group col-12">
                                     <label class="form-label">محتوا</label>
-                                    <textarea name="description" id="description" rows="7" class="form-control @error('description') is-invalid @enderror" placeholder="محتوا">{{ old('description') }}</textarea>
+                                    <textarea name="description" id="description" rows="7"
+                                        class="form-control @error('description') is-invalid @enderror" placeholder="محتوا">{{ old('description') }}</textarea>
                                     @error('description')
-                                    <p class="text-danger my-2">{{ $message}}</p>
+                                        <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
@@ -96,29 +105,29 @@
         CKEDITOR.replace('description');
     </script>
 
-{{-- ! Select2 Service for tags --}}
+    {{-- ! Select2 Service for tags --}}
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let tags_input = $("#tags");
             let select_tags = $("#select_tags");
             let default_tags = tags_input.val();
             let default_data = null;
 
-            if(tags_input.val() !== null && tags_input.val().length > 0){
+            if (tags_input.val() !== null && tags_input.val().length > 0) {
                 default_data = default_tags.split(',');
             }
 
             select_tags.select2({
-                placeholder : 'تگ ها را وارید نماید',
+                placeholder: 'تگ ها را وارید نماید',
                 tags: true,
                 data: default_data
             });
 
             select_tags.children('option').attr('selected', true).trigger('change');
 
-            $('#form').submit(function (event) {
-                if(select_tags.val() !== null && select_tags.val().length > 0){
+            $('#form').submit(function(event) {
+                if (select_tags.val() !== null && select_tags.val().length > 0) {
                     let selectedSource = select_tags.val().join(',');
                     tags_input.val(selectedSource);
                 }

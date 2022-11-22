@@ -5,11 +5,7 @@ namespace App\Http\Controllers\Admin\Content;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\Category\StorePostCategoryRequest;
 use App\Http\Requests\Admin\Content\Category\UpdatePostCategoryRequest;
-use App\Http\Services\Image\ImageService;
 use App\Models\Content\PostCategory;
-use Directory;
-use Illuminate\Support\Str;
-use League\Flysystem\DirectoryListing;
 
 class CategoryController extends Controller
 {
@@ -40,19 +36,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostCategoryRequest $request, ImageService $imageService)
+    public function store(StorePostCategoryRequest $request)
     {
         $postCategories = $request->all();
-
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
-            $result = $imageService->createIndexAndSave($request->file('image'));
-        }
-        if ($result === false){
-            return redirect()->route('content.category.index')->with('swal-error', 'آپلود عکس انجام نشد');
-        }
-
-        $postCategories['image'] = $result;
+        $postCategories['image'] = 'image';
+        // $postCategories['slug'] = str_replace(' ', '-', $postCategories['name'] . '-' . Str::random(5));
 
         PostCategory::create($postCategories);
         return redirect()->route('content.category.index')->with('swal-success', 'دسته بندی جدید با موفقیت اضافه شد');
@@ -89,10 +77,33 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePostCategoryRequest $request, $id)
+    public function update(UpdatePostCategoryRequest $request, $id, ImageService $imageService)
     {
         $postCategory = PostCategory::findOrFail($id);
-        $postCategory['image'] = 'image';
+
+        if ($request->hasFile('image')) {
+
+            if (!empty($postCategory->image)) {
+                $imageService->deleteDirectoryAndFiles($postCategory->image['directory']);
+            }
+
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+
+            $postCategories['image'] = $result;
+
+            if ($result === false) {
+                return redirect()->route('content.category.index')->with('swal-error', 'آپلود عکس انجام نشد');
+            }
+        } else {
+            if(isset($postCategory['currentImage']) && !empty($postCategory->image)){
+                $image = $postCategory->image;
+                $image['currentImage'] = $postCategory['currentImage'];
+                $postCategory['image'] = $image;
+
+            }
+        }
+
         $postCategory->update([
             'name' => $request->name,
             'tags' => $request->tags,

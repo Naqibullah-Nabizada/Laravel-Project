@@ -24,11 +24,11 @@ class StorePostCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','min:3','max:20'],
-            'tags' => ['required','min:3','max:100'],
-            'image' => ['required','mimes:png,jpg,jpeg'],
-            'status' => ['required','in:0,1'],
-            'description' => ['required','min:3'],
+            'name' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
+            'tags' => 'required|min:3|max:100|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
+            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'status' => 'required|in:0,1',
+            'description' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
         ];
     }
 }

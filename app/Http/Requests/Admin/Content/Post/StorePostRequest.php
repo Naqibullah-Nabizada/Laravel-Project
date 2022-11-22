@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Content\Category;
+namespace App\Http\Requests\Admin\Content\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostCategoryRequest extends FormRequest
+class StorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,13 @@ class UpdatePostCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
+            'title' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
             'tags' => 'required|min:3|max:100|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
-            'image' => 'image|mimes:png,jpg,jpeg',
+            'category_id' => 'required|numeric|exists:post_categories,id',
+            'image' => 'required|image|mimes:png,jpg,jpeg',
             'status' => 'required|in:0,1',
-            'description' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
+            'summary' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
+            'body' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?* ]+$/u',
         ];
     }
 }

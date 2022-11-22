@@ -31,25 +31,36 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>عنوان پست</th>
                                     <th>دسته</th>
+                                    <th>عنوان پست</th>
                                     <th>تصویر</th>
+                                    <th>توضیحات</th>
+                                    <th>برچسب ها</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>چگونه از باطری موبایل نگهداری کنیم؟</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td>تصویر</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
+
+                                @foreach ($posts as $key => $post)
+                                    <tr>
+                                        <td>{{ $key += 1 }}</td>
+                                        <td>{{ $post->postCategory->name }}</td>
+                                        <td>{{ $post->title }}</td>
+                                        <td>
+                                            <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']]) }}"
+                                                alt="{{ $post->name }}" width="60" height="30"
+                                                style="object-fit: cover">
+                                        </td>
+                                        <td>{{ $post->body }}</td>
+                                        <td>{{ $post->tags }}</td>
+                                        <td class="text-left">
+                                            <a href="" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <a href="" class="btn btn-sm btn-danger"><i
+                                                    class="fa fa-trash-alt mx-1"></i>حذف</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
