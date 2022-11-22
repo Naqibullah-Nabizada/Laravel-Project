@@ -84,7 +84,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::FindOrFail($id);
+        $postCategories = PostCategory::all();
+        return view('admin.content.post.edit', compact('post', 'postCategories'));
     }
 
     /**
@@ -94,9 +96,50 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePostRequest $request, $id)
+    public function update(UpdatePostRequest $request, $id, ImageService $imageService)
     {
-        //
+
+        $post = Post::FindOrFail($id);
+
+        //! fixed date
+        $realTimestampStart = substr($request->published_at, 0, 10);
+        $post['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
+        if ($request->hasFile('image')) {
+
+            if (!empty($post->image)) {
+                $imageService->deleteDirectoryAndFiles($post->image['directory']);
+            }
+
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+
+            $postCategories['image'] = $result;
+
+            if ($result === false) {
+                return redirect()->route('post.index')->with('swal-error', 'آپلود عکس انجام نشد');
+            }
+        } else {
+            if (isset($post['currentImage']) && !empty($post->image)) {
+                $image = $post->image;
+                $image['currentImage'] = $post['currentImage'];
+                $post['image'] = $image;
+            }
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'tags' => $request->tags,
+            'category_id' => $request->category_id,
+            'image' => $post['image'],
+            'status' => $request->status,
+            'published_at' => $post['published_at'],
+            'commentable' => $request->commentable,
+            'summary' => $request->summary,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('post.index')->with('swal-success', 'پست با موفقیت ویرایش شد');
     }
 
     /**

@@ -36,6 +36,9 @@
                                     <th>تصویر</th>
                                     <th>توضیحات</th>
                                     <th>برچسب ها</th>
+                                    {{-- <th>تاریخ انتشار</th> --}}
+                                    <th>وضعیت</th>
+                                    <th>امکان کامنت</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
@@ -53,8 +56,11 @@
                                         </td>
                                         <td>{{ $post->body }}</td>
                                         <td>{{ $post->tags }}</td>
+                                        {{-- <td>{{ $post->published_at }}</td> --}}
+                                        <td>{{ $post->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td>{{ $post->commentable == 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td class="text-left">
-                                            <a href="" class="btn btn-sm btn-warning"><i
+                                            <a href="{{ route('post.edit', $post->id) }}" class="btn btn-sm btn-warning"><i
                                                     class="fa fa-edit mx-1"></i>ویرایش</a>
                                             <a href="" class="btn btn-sm btn-danger"><i
                                                     class="fa fa-trash-alt mx-1"></i>حذف</a>
