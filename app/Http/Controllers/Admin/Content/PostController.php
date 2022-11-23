@@ -150,6 +150,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::FindOrFail($id);
+        $post->destroy($id);
+        return redirect()->route('post.index')->with('swal-success', 'دسته بندی با موفقیت حذف شد');
     }
 }

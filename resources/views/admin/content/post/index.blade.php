@@ -62,8 +62,14 @@
                                         <td class="text-left">
                                             <a href="{{ route('post.edit', $post->id) }}" class="btn btn-sm btn-warning"><i
                                                     class="fa fa-edit mx-1"></i>ویرایش</a>
-                                            <a href="" class="btn btn-sm btn-danger"><i
-                                                    class="fa fa-trash-alt mx-1"></i>حذف</a>
+
+                                            <form action="{{ route('post.destroy', $post->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>حذف</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -76,4 +82,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection
