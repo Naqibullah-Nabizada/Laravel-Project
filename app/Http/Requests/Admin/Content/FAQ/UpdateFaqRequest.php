@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Content\Post;
+namespace App\Http\Requests\Admin\Content\FAQ;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePostRequest extends FormRequest
+class UpdateFaqRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,10 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
+            'question' => 'required|min:3|max:300|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
+            'answer' => 'required|min:3|max:2000|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
             'tags' => 'required|min:3|max:100|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
-            'category_id' => 'required|numeric|exists:post_categories,id',
-            'image' => 'required|image|mimes:png,jpg,jpeg',
             'status' => 'required|in:0,1',
-            'summary' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
-            'body' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Content\Page\StorePageRequest;
+use App\Models\Content\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -14,7 +16,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        return view('admin.content.page.index');
+        $pages = Page::orderBy('id', 'desc')->get();
+        return view('admin.content.page.index', compact('pages'));
     }
 
     /**
@@ -33,9 +36,12 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePageRequest $request)
     {
-        //
+        $page = $request->all();
+        Page::create($page);
+
+        return redirect()->route('page.index')->with('swal-success', 'صفحه جدید با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +63,8 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $page = Page::FindOrFail($id);
+        return view('admin.content.page.edit', compact('page'));
     }
 
     /**
@@ -69,7 +76,10 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $page = Page::findOrFail($id);
+        $page['slug'] = null;
+        $page->update($request->all());
+        return redirect()->route('page.index')->with('swal-success', 'صفحه با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +90,8 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $page = Page::FindOrFail($id);
+        $page->destroy($id);
+        return redirect()->route('page.index')->with('swal-success', 'صفحه با موفقیت حذف شد');
     }
 }

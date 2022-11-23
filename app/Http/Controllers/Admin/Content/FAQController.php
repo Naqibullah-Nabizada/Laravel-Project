@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Content\FAQ\StoreFaqRequest;
+use App\Http\Requests\Admin\Content\FAQ\UpdateFaqRequest;
+use App\Models\Content\Faq;
 use Illuminate\Http\Request;
 
 class FAQController extends Controller
@@ -14,7 +17,8 @@ class FAQController extends Controller
      */
     public function index()
     {
-        return view('admin.content.faq.index');
+        $faqs = Faq::orderBy('id', 'desc')->get();
+        return view('admin.content.faq.index', compact('faqs'));
     }
 
     /**
@@ -33,9 +37,10 @@ class FAQController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFaqRequest $request)
     {
-        //
+        Faq::create($request->all());
+        return redirect()->route('faq.index')->with('swal-success', 'سوال جدید با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +62,8 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
-        //
+        $faq = Faq::FindOrFail($id);
+        return view('admin.content.faq.edit', compact('faq'));
     }
 
     /**
@@ -67,9 +73,11 @@ class FAQController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFaqRequest $request, $id)
     {
-        //
+        $faq = Faq::FindOrFail($id);
+        $faq->update($request->all());
+        return redirect()->route('faq.index')->with('swal-success', 'سوال با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +88,8 @@ class FAQController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $faq = Faq::FindOrFail($id);
+        $faq->destroy($id);
+        return redirect()->route('faq.index')->with('swal-success', 'سوال با موفقیت حذف شد');
     }
 }
