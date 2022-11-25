@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>نمایش نظرات</title>
+    <title>نمایش نظر</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش محتوا</a></li>
             <li class="breadcrumb-item"> <a href="#">نظرات</a></li>
-            <li class="breadcrumb-item active"> نمایش نظرات</li>
+            <li class="breadcrumb-item active"> نمایش نظر</li>
         </ol>
     </nav>
 
@@ -19,7 +19,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش نظرات</h5>
+                    <h5>بخش نظر</h5>
 
                     <div class="d-flex justify-content-between my-3">
                         <a href="{{ route('content.comment.index') }}" class="btn btn-sm btn-primary">بازگشت</a>
@@ -30,23 +30,29 @@
 
                         <div class="card mb-3">
                             <div class="card-header bg-secondary text-white">
-                                کامران محمدی - ۲۳۳۴۵
+                                {{ $comment->user->fullName }}
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">مشخصات کالا:‌ ساعت هوشمند کد کالا: ۸۴۸۴</h5>
-                                <p class="card-text">خیلی ساعت عالی و مقبول است ولی رنگش کمی خوب نیست</p>
+                                <h5 class="card-title">مشخصات کالا:‌ {{ $comment->commentable->title }}</h5>
+                                <p class="card-text">{{ $comment->body }}</p>
                             </div>
                         </div>
 
-                        <form action="" method="">
+                        @if ($comment->parent_id == null)
+                            <form action="{{ route('content.comment.answer', $comment->id) }}" method="POST">
+                                @csrf
+                                <section class="col-12 col-md-9 my-2">
+                                    <label class="form-label">پاسخ ادمین</label>
+                                    <textarea name="body" rows="5" class="form-control" placeholder="پاسخ ادمین"></textarea>
+                                    @error('body')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
+                                </section>
 
-                            <section class="col-12 col-md-9 my-2">
-                                <label class="form-label">پاسخ ادمین</label>
-                                <textarea name="" rows="5" class="form-control" placeholder="پاسخ ادمین"></textarea>
-                            </section>
+                                <button type="submit" class="btn btn-sm btn-primary mx-3">ثبت</button>
+                            </form>
+                        @endif
 
-                            <a href="#" class="btn btn-sm btn-primary mx-3">ثبت</a>
-                        </form>
                     </section>
 
                 </section>
