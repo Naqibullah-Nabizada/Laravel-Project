@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Content\Menu\StoreMenuRequest;
+use App\Http\Requests\Admin\Content\Menu\UpdateMenuRequest;
+use App\Models\Content\Menu;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -14,7 +17,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('admin.content.menu.index');
+        $menus = Menu::orderBy('id', 'desc')->get();
+        return view('admin.content.menu.index', compact('menus'));
     }
 
     /**
@@ -24,7 +28,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.content.menu.create');
+        $menus = Menu::where('parent_id', null)->get();
+        return view('admin.content.menu.create', compact('menus'));
     }
 
     /**
@@ -33,9 +38,11 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMenuRequest $request)
     {
-        //
+        $menu = $request->all();
+        Menu::create($menu);
+        return redirect()->route('menu.index')->with('swal-success', 'منوی جدید با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +64,9 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $menu = Menu::FindOrFail($id);
+        $parent_menus = Menu::where('parent_id', null)->get()->except($id);
+        return view('admin.content.menu.edit', compact('menu', 'parent_menus'));
     }
 
     /**
@@ -67,9 +76,11 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMenuRequest $request, $id)
     {
-        //
+        $menu = Menu::FindOrFail($id);
+        $menu->update($request->all());
+        return redirect()->route('menu.index')->with('swal-success', 'منو با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +91,8 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $menu = Menu::FindOrFail($id);
+        $menu->destroy($id);
+        return redirect()->route('menu.index')->with('swal-success', 'منو با موفقیت حذف شد');
     }
 }

@@ -34,23 +34,33 @@
                                     <th>نام منو</th>
                                     <th>منوی والد</th>
                                     <th>لینک منو</th>
+                                    <th>وضعیت</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td>https://toplearn.com</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
+                                @foreach ($menus as $key => $menu)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $menu->name }}</td>
+                                        <td>{{ $menu->parent_id == null ? 'منوی اصلی' : $menu->parent->name }}</td>
+                                        <td>{{ $menu->url }}</td>
+                                        <td>{{ $menu->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td class="text-left">
+                                            <a href="{{ route('menu.edit', $menu->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <form action="{{ route('menu.destroy', $menu->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -60,4 +70,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

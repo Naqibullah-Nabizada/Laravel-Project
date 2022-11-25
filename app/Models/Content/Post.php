@@ -18,7 +18,7 @@ class Post extends Model
         ];
     }
 
-    protected $fillable = ['title', 'slug', 'published_at', 'tags', 'image', 'author_id','category_id' , 'status', 'commentable', 'body', 'summary'];
+    protected $fillable = ['title', 'slug', 'published_at', 'tags', 'image', 'author_id', 'category_id', 'status', 'commentable', 'body', 'summary'];
 
 
     public function postCategory()
@@ -29,4 +29,9 @@ class Post extends Model
     //! Image Service
 
     protected $casts = ['image' => 'array'];
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
