@@ -31,23 +31,34 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>عنوان اطلاعیه</th>
+                                    <th>عنوان پیام</th>
+                                    <th>متن پیام</th>
                                     <th>تاریخ ارسال</th>
+                                    <th>وضعیت</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>فروش ویژه بهاری</td>
-                                    <td>1401 04 03</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
+                                @foreach ($sms as $key => $item)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->title }}</td>
+                                        <td>{{ Str::limit($item->body, 35) }}</td>
+                                        <td>{{ $item->published_at }}</td>
+                                        <td>{{ $item->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td class="text-left">
+                                            <a href="{{ route('sms.edit', $item->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <form action="{{ route('sms.destroy', $item->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -57,4 +68,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Notify;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Notify\SMS\StoreSMSRequest;
+use App\Http\Requests\Admin\Notify\SMS\UpdateSMSRequest;
+use App\Models\Notify\SMS;
 use Illuminate\Http\Request;
 
 class SMSController extends Controller
@@ -14,7 +17,8 @@ class SMSController extends Controller
      */
     public function index()
     {
-        return view('admin.notify.sms.index');
+        $sms = SMS::orderBy('id', 'desc')->get();
+        return view('admin.notify.sms.index', compact('sms'));
     }
 
     /**
@@ -33,9 +37,17 @@ class SMSController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSMSRequest $request)
     {
-        //
+
+
+        $sms = $request->all();
+        //! fixed date
+        $realTimestampStart = substr($request->published_at, 0, 10);
+        $sms['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
+        SMS::create($sms);
+        return redirect()->route('sms.index')->with('swal-success', 'پیام با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +69,8 @@ class SMSController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sms = SMS::FindOrFail($id);
+        return view('admin.notify.sms.edit', compact('sms'));
     }
 
     /**
@@ -67,9 +80,18 @@ class SMSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSMSRequest $request, $id)
     {
-        //
+        $sms = SMS::FindOrFail($id);
+
+        $items = $request->all();
+
+        //! fixed date
+        $realTimestampStart = substr($request->published_at, 0, 10);
+        $items['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
+        $sms->update($items);
+        return redirect()->route('sms.index')->with('swal-success', 'پیام با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +102,8 @@ class SMSController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sms = SMS::FindOrFail($id);
+        $sms->destroy($id);
+        return redirect()->route('sms.index')->with('swal-success', 'پیام با موفقیت حذف شد');
     }
 }
