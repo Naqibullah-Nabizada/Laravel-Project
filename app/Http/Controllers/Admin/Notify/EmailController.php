@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Notify;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Notify\Email\StoreEmailRequest;
+use App\Http\Requests\Admin\Notify\Email\UpdateEmailRequest;
+use App\Models\Notify\Email;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
@@ -14,7 +17,8 @@ class EmailController extends Controller
      */
     public function index()
     {
-        return view('admin.notify.email.index');
+        $emails = Email::orderBy('id', 'desc')->get();
+        return view('admin.notify.email.index', compact('emails'));
     }
 
     /**
@@ -33,9 +37,14 @@ class EmailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmailRequest $request)
     {
-        //
+        $email = $request->all();
+        //! fixed date
+        $realTimestampStart = substr($request->published_at, 0, 10);
+        $email['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+        Email::create($email);
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +66,8 @@ class EmailController extends Controller
      */
     public function edit($id)
     {
-        //
+        $email = Email::FindOrFail($id);
+        return view('admin.notify.email.edit', compact('email'));
     }
 
     /**
@@ -67,9 +77,14 @@ class EmailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEmailRequest $request, $id)
     {
-        //
+        $email = $request->all();
+        //! fixed date
+        $realTimestampStart = substr($request->published_at, 0, 10);
+        $email['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+        Email::FindOrFail($id)->update($email);
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +95,8 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $email = Email::FindOrFail($id);
+        $email->destroy($id);
+        return redirect()->route('email.index')->with('swal-success', 'ایمیل با موفقیت حذف شد');
     }
 }

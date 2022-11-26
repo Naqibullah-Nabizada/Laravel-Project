@@ -175,5 +175,7 @@ return [
         'answer'                => 'پاسخ',
         'parent_id'             => 'منوی والد',
         'url'                   => 'لینک',
+        'published_at'          => 'تاریخ انتشار',
+        'subject'               => 'موضوع',
     ],
 ];
