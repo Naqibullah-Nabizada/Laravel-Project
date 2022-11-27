@@ -44,7 +44,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>{{ Str::limit($item->body, 35) }}</td>
-                                        <td>{{ $item->published_at }}</td>
+                                        <td>{{ jalaliDate($item->published_at, 'H:i:s Y-m-d') }}</td>
                                         <td>{{ $item->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td class="text-left">
                                             <a href="{{ route('sms.edit', $item->id) }}" class="btn btn-sm btn-warning"><i
