@@ -44,7 +44,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $email->subject }}</td>
                                         <td>{{ Str::limit($email->body, 30) }}</td>
-                                        <td>{{ $email->published_at }}</td>
+                                        <td>{{ jalaliDate($email->published_at, 'H:i:s Y-m-d') }}</td>
                                         <td>{{ $email->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td class="text-left">
                                             <a href="{{ route('email.edit', $email->id) }}"
