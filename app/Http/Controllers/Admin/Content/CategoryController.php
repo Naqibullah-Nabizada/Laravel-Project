@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\Content\Category\StorePostCategoryRequest;
 use App\Http\Requests\Admin\Content\Category\UpdatePostCategoryRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\Content\PostCategory;
-
 class CategoryController extends Controller
 {
     /**
