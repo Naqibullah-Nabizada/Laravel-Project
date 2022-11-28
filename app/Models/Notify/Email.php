@@ -12,4 +12,8 @@ class Email extends Model
 
     protected $table = 'public_mail';
     protected $fillable = ['subject', 'body', 'status', 'published_at'];
+
+    public function files(){
+        return $this->hasMany(EmailFile::class, 'public_mail_id');
+    }
 }

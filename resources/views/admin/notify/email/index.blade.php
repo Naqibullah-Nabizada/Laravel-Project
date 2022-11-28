@@ -35,7 +35,7 @@
                                     <th>متن ایمیل</th>
                                     <th>تاریخ ارسال</th>
                                     <th>وضعیت</th>
-                                    <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
+                                    <th class="col-4 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,9 +46,13 @@
                                         <td>{{ Str::limit($email->body, 30) }}</td>
                                         <td>{{ jalaliDate($email->published_at, 'H:i:s Y-m-d') }}</td>
                                         <td>{{ $email->status == 0 ? 'غیر فعال' : 'فعال' }}</td>
-                                        <td class="text-left">
+                                        <td class="text-center">
+                                            <a href="{{ route('email-file.index', $email->id) }}"
+                                                class="btn btn-sm btn-primary"><i class="fa fa-file mx-1"></i>فایل های ضمیمه شده</a>
+
                                             <a href="{{ route('email.edit', $email->id) }}"
                                                 class="btn btn-sm btn-warning"><i class="fa fa-edit mx-1"></i>ویرایش</a>
+
                                             <form action="{{ route('email.destroy', $email->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
