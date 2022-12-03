@@ -24,9 +24,15 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'mobile',
+        'status',
+        'user_type',
+        'profile_photo_path',
+        'activation',
     ];
 
     /**
@@ -59,7 +65,8 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function getFullNameAttribute(){
+    public function getFullNameAttribute()
+    {
         return "{$this->first_name} {$this->last_name}";
     }
 }

@@ -180,6 +180,7 @@ return [
         'keywords'              => 'کلمات کلیدی',
         'logo'                  => 'لوگو',
         'icon'                  => 'آیکن',
-        'file'             => 'فایل',
+        'file'                  => 'فایل',
+        'profile_photo_path'    => 'تصویر',
     ],
 ];

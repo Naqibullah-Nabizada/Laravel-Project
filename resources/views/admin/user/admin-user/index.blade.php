@@ -31,32 +31,47 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>ایمیل</th>
-                                    <th>شماره موبایل</th>
                                     <th>نام</th>
                                     <th>نام خانوادگی</th>
+                                    <th>شماره موبایل</th>
+                                    <th>ایمیل</th>
+                                    <th>تصویر</th>
+                                    <td>وضعیت</td>
+                                    <td>فعال سازی</td>
                                     <th>نقش</th>
                                     <th class="col-3 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ahmad@gmail.com</td>
-                                    <td>074938344</td>
-                                    <td>احمد</td>
-                                    <td>کریمی</td>
-                                    <td>سوپر ادمین</td>
-                                    <td class="text-center">
-                                        <a href="" class="btn btn-sm btn-info"><i class="fa fa-edit mx-1"></i>نقش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-trash mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
-
+                                @foreach ($admins as $key => $admin)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $admin->first_name }}</td>
+                                        <td>{{ $admin->last_name }}</td>
+                                        <td>{{ $admin->mobile }}</td>
+                                        <td>{{ $admin->email }}</td>
+                                        <td>
+                                            <img src="{{ asset($admin->profile_photo_path) }}" alt="avator"
+                                                width="50">
+                                        </td>
+                                        <td>{{ $admin->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td>{{ $admin->activation === 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td>سوپر ادمین</td>
+                                        <td class="text-center">
+                                            <a href="" class="btn btn-sm btn-info"><i
+                                                    class="fa fa-edit mx-1"></i>نقش</a>
+                                            <a href="{{ route('admin-user.edit', $admin->id) }}"
+                                                class="btn btn-sm btn-warning"><i class="fa fa-trash-alt mx-1"></i>ویرایش</a>
+                                            <form action="{{ route('admin-user.destroy', $admin->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -66,4 +81,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection
