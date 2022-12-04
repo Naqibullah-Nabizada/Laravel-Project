@@ -22,7 +22,10 @@ use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Notify\SMSController;
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Ticket\TicketAdminController;
+use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
+use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
@@ -152,7 +155,7 @@ Route::prefix('admin')->group(function () {
 
         //! email file
 
-        Route::prefix('email-file')->group(function(){
+        Route::prefix('email-file')->group(function () {
 
             Route::get('/{id}', [EmailFileController::class, 'index'])->name('email-file.index');
             Route::get('/{id}/create', [EmailFileController::class, 'create'])->name('email-file.create');
@@ -165,12 +168,35 @@ Route::prefix('admin')->group(function () {
 
 
     //! Start of Ticket
+    Route::prefix('ticket')->group(function () {
+        Route::resource('/', TicketController::class);
 
-    Route::resource('/ticket', TicketController::class);
-    Route::get('ticket/show', [TicketController::class, 'show'])->name('ticket.show');
-    Route::get('ticket/new-ticket', [TicketController::class, 'newTicket'])->name('ticket.new-ticket');
-    Route::get('ticket/open-ticket', [TicketController::class, 'openTicket'])->name('ticket.open-ticket');
-    Route::get('ticket/close-ticket', [TicketController::class, 'closeTicket'])->name('ticket.close-ticket');
+        Route::prefix('admin')->group(function(){
+            Route::get('/', [TicketAdminController::class, 'index'])->name('ticket.admin.index');
+            Route::get('/set/{id}', [TicketAdminController::class, 'set'])->name('ticket.admin.set');
+        });
+
+        Route::prefix('category')->group(function () {
+            Route::get('/', [TicketCategoryController::class, 'index'])->name('ticket.category.index');
+            Route::get('/create', [TicketCategoryController::class, 'create'])->name('ticket.category.create');
+            Route::post('/store', [TicketCategoryController::class, 'store'])->name('ticket.category.store');
+            Route::get('/edit/{id}', [TicketCategoryController::class, 'edit'])->name('ticket.category.edit');
+            Route::put('/update/{id}', [TicketCategoryController::class, 'update'])->name('ticket.category.update');
+            Route::delete('/destroy/{id}', [TicketCategoryController::class, 'destroy'])->name('ticket.category.destroy');
+            Route::get('/status/{id}', [TicketCategoryController::class, 'status'])->name('ticket.category.status');
+        });
+
+        Route::resource('/priority', TicketPriorityController::class);
+
+        Route::get('/', [TicketController::class, 'index'])->name('ticket.index');
+        Route::get('/show/{id}', [TicketController::class, 'show'])->name('ticket.show');
+        Route::post('/answer/{ticket}', [TicketController::class, 'answer'])->name('ticket.answer');
+        Route::get('/change/{id}', [TicketController::class, 'change'])->name('ticket.change');
+        Route::get('/new-ticket', [TicketController::class, 'newTicket'])->name('ticket.new-ticket');
+        Route::get('/open-ticket', [TicketController::class, 'openTicket'])->name('ticket.open-ticket');
+        Route::get('/close-ticket', [TicketController::class, 'closeTicket'])->name('ticket.close-ticket');
+    });
+
 
 
     //! Start of Setting

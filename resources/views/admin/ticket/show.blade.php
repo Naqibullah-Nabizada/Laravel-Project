@@ -30,23 +30,28 @@
 
                         <div class="card mb-3">
                             <div class="card-header bg-secondary text-white">
-                                کامران محمدی - ۲۳۳۴۵
+                                {{ $ticket->user->full_name }}
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">موضوع:‌ عدم دسترسی به صفحه اصلی سایت</h5>
-                                <p class="card-text">خیلی ساعت عالی و مقبول است ولی رنگش کمی خوب نیست</p>
+                                <h5 class="card-title">موضوع:‌ {{ $ticket->subject }}</h5>
+                                <p class="card-text">{{ $ticket->description }}</p>
                             </div>
                         </div>
+                        @if ($ticket->ticket_id === null)
+                            <form action="{{ route('ticket.answer', $ticket->id) }}" method="POST">
+                                @csrf
+                                <section class="col-12 col-md-9 my-2">
+                                    <label class="form-label">پاسخ تیکت</label>
+                                    <textarea name="description" rows="5" class="form-control @if('description') is-invalid @endif" placeholder="پاسخ تیکت">{{ old('description') }}</textarea>
+                                    @error('description')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
+                                </section>
 
-                        <form action="" method="">
+                                <button type="submit" class="btn btn-sm btn-primary mx-3">ثبت</button>
+                            </form>
+                        @endif
 
-                            <section class="col-12 col-md-9 my-2">
-                                <label class="form-label">پاسخ تیکت</label>
-                                <textarea name="" rows="5" class="form-control" placeholder="پاسخ تیکت"></textarea>
-                            </section>
-
-                            <a href="#" class="btn btn-sm btn-primary mx-3">ثبت</a>
-                        </form>
                     </section>
 
                 </section>

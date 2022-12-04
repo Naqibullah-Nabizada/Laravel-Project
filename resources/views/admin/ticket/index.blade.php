@@ -33,25 +33,36 @@
                                     <th>#</th>
                                     <th>نویسنده تیکت</th>
                                     <th>عنوان تیکت</th>
+                                    <th>توضیحات تیکت</th>
                                     <th>دسته تیکت</th>
                                     <th>اولویت تیکت</th>
                                     <th>ارجاع شده از</th>
+                                    <th>تیکت مرجع</th>
                                     <th class="col-2 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>حامد احمدی</td>
-                                    <td>پرداخت انجام نشده</td>
-                                    <td>دسته فروش</td>
-                                    <td>فوری</td>
-                                    <td>علی مرادی</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('ticket.show', 1) }}" class="btn btn-sm btn-info"><i
-                                                class="fa fa-eye mx-1"></i>نمایش</a>
-                                    </td>
-                                </tr>
+                                @foreach ($tickets as $ticket)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $ticket->user->full_name }}</td>
+                                        <td>{{ $ticket->subject }}</td>
+                                        <td>{{ Str::limit($ticket->description, 50) }}</td>
+                                        <td>{{ $ticket->category->name }}</td>
+                                        <td>{{ $ticket->category->name }}</td>
+                                        <td>{{ $ticket->admin->user->full_name }}</td>
+                                        <td>{{ $ticket->parent->subject ?? '-' }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('ticket.change', $ticket->id) }}"
+                                                class="btn btn-sm btn-{{ $ticket->status === 0 ? 'warning':'success' }}"><i class="fa fa-check"></i>
+                                                {{ $ticket->status === 0 ? 'بستن' : 'باز کردن' }}
+                                            </a>
+
+                                            <a href="{{ route('ticket.show', $ticket->id) }}"
+                                                class="btn btn-sm btn-info"><i class="fa fa-eye"></i>نمایش</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
