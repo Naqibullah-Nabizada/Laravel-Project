@@ -143,8 +143,12 @@ Route::prefix('admin')->group(function () {
         Route::resource('admin-user', AdminUserController::class);
         Route::resource('customer', CustomerController::class);
         Route::resource('role', RoleController::class);
+        Route::get('role/permission-form/{role}', [RoleController::class, 'permissionForm'])->name('user.role.permission-form');
+        Route::put('role/permission-update/{role}', [RoleController::class, 'permissionUpdate'])->name('user.role.permission-update');
         Route::resource('permission', PermissionController::class);
     });
+
+
 
 
     //! Start of Notify
@@ -171,7 +175,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('ticket')->group(function () {
         Route::resource('/', TicketController::class);
 
-        Route::prefix('admin')->group(function(){
+        Route::prefix('admin')->group(function () {
             Route::get('/', [TicketAdminController::class, 'index'])->name('ticket.admin.index');
             Route::get('/set/{id}', [TicketAdminController::class, 'set'])->name('ticket.admin.set');
         });

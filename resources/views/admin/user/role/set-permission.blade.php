@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>ایجاد نقش جدید</title>
+    <title>دسترسی نقش</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش کاربران</a></li>
             <li class="breadcrumb-item"> <a href="#">مشتریان</a></li>
-            <li class="breadcrumb-item active"> ایجاد نقش جدید</li>
+            <li class="breadcrumb-item active"> دسترسی نقش</li>
         </ol>
     </nav>
 
@@ -19,46 +19,33 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>ایجاد نقش جدید</h5>
+                    <h5>دسترسی نقش</h5>
 
                     <div class="d-flex justify-content-between my-3">
                         <a href="{{ route('role.index') }}" class="btn btn-sm btn-primary">بازگشت</a>
                     </div>
-                    <hr>
 
                     <section>
-                        <form action="{{ route('role.store') }}" method="POST">
+                        <form action="{{ route('user.role.permission-update', $role->id) }}" method="POST">
                             @csrf
-                            <section class="row">
-
-                                <div class="form-group col-12 col-md-5">
-                                    <label class="form-label">عنوان نقش</label>
-                                    <input type="text" name="name" class="form-control form-control-sm"
-                                        placeholder="عنوان نقش" value="{{ old('name') }}">
-                                    @error('name')
-                                        <p class="text-danger my-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-5">
-                                    <label class="form-label">توضیحات نقش</label>
-                                    <input type="text" name="description" class="form-control form-control-sm"
-                                        placeholder="توضیحات نقش" value="{{ old('description') }}">
-                                    @error('description')
-                                        <p class="text-danger my-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="col-12 col-md-2 my-md-auto">
-                                    <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
-                                </div>
+                            @method('PUT')
+                            <section class="row mt-4">
 
                                 <section class="col-12">
+                                    <div class="row p-3">
+                                        <span> <strong>نام نقش:</strong> {{ $role->name }}</span>
+                                        <span class="mx-5"> <strong>توضیحات نقش:</strong> {{ $role->description }}</span>
+                                    </div>
                                     <div class="row border-top p-2">
+                                        @php
+                                            $rolePermissionsArray = $role->permissions->pluck('id')->toArray();
+                                        @endphp
+
                                         @foreach ($permissions as $key => $permission)
                                             <div class="col-md-3">
                                                 <input type="checkbox" name="permissions[]" id="{{ $permission->id }}"
-                                                    class="form-check-input" value="{{ $permission->id }}" checked>
+                                                    class="form-check-input" value="{{ $permission->id }}"
+                                                    @if (in_array($permission->id, $rolePermissionsArray)) checked @endif>
                                                 <label for="{{ $permission->id }}" class="form-check-label mr-4 mx-1">
                                                     {{ $permission->name }}
                                                 </label>
@@ -73,6 +60,9 @@
 
                             </section>
 
+                            <div class="col-12 col-md-2 my-5">
+                                <button type="submit" class="btn btn-sm btn-warning">ویرایش</button>
+                            </div>
                         </form>
                     </section>
 
