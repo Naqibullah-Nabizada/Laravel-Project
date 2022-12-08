@@ -18,7 +18,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش نظرات</h5>
+                    <h5>بخش تیکت ها</h5>
 
                     <div class="d-flex justify-content-between my-3">
                         <a href="#" class="btn btn-sm btn-primary disabled">ایجاد تیکت</a>
