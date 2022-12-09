@@ -181,6 +181,8 @@ return [
         'logo'                  => 'لوگو',
         'icon'                  => 'آیکن',
         'file'                  => 'فایل',
-        'profile_photo_path'    => 'تصویر',
+        'amount'    => 'هزینه ارسال',
+        'delivery_time'    => 'زمان ارسال',
+        'delivery_time_unit'    => 'واحد زمان ارسال',
     ],
 ];
