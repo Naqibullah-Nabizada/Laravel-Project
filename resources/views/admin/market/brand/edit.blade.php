@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>ایجاد برند</title>
+    <title>ویرایش برند</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item"> <a href="#">برند</a></li>
-            <li class="breadcrumb-item active"> ایجاد برند</li>
+            <li class="breadcrumb-item active"> ویرایش برند</li>
         </ol>
     </nav>
 
@@ -27,15 +27,17 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('brand.store') }}" method="POST" id="form"
+                        <form action="{{ route('brand.update', $brand->id) }}" method="POST" id="form"
                             enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <section class="row">
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام فارسی برند</label>
                                     <input type="text" name="persion_name" class="form-control form-control-sm"
-                                        placeholder="نام فارسی برند" value="{{ old('persion_name') }}">
+                                        placeholder="نام فارسی برند"
+                                        value="{{ old('persion_name', $brand->persion_name) }}">
                                     @error('persion_name')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -44,7 +46,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام اصلی برند</label>
                                     <input type="text" name="original_name" class="form-control form-control-sm"
-                                        placeholder="نام اصلی برند" value="{{ old('original_name') }}">
+                                        placeholder="نام اصلی برند"
+                                        value="{{ old('original_name', $brand->original_name) }}">
                                     @error('original_name')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -53,6 +56,9 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">لوگو</label>
                                     <input type="file" name="logo" class="form-control form-control-sm">
+
+                                    <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}" width="80" class="mt-3">
+
                                     @error('logo')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -62,9 +68,9 @@
                                     <label class="form-label">وضعیت</label>
                                     <select name="status"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('status', $brand->status) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('status', $brand->status) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('status')
@@ -74,7 +80,8 @@
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
-                                    <input type="hidden" name="tags" value="{{ old('tags') }}" id="tags">
+                                    <input type="hidden" name="tags" value="{{ old('tags', $brand->tags) }}"
+                                        id="tags">
                                     <select class="select2 form-control form-control-sm" id="select_tags" multiple></select>
                                     @error('tags')
                                         <p class="text-danger my-2">{{ $message }}</p>
@@ -83,7 +90,7 @@
 
                             </section>
 
-                            <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
+                            <button type="submit" class="btn btn-sm btn-warning">ویرایش</button>
                         </form>
                     </section>
 
