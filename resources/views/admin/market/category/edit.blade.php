@@ -88,6 +88,27 @@
                                     @error('image')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
+
+                                    <section class="row my-2">
+                                        @php
+                                            $number = 1;
+                                        @endphp
+                                        @foreach ($productCategory->image['indexArray'] as $key => $value)
+                                            <section class="col-md-{{ 6 / $number }}">
+                                                <div class="form-check">
+                                                    <input type="radio" name="currentImage" id="{{ $number }}"
+                                                        class="form-check-input" value="{{ $key }}"
+                                                        @if ($productCategory->image['currentImage'] == $key) checked @endIf>
+                                                    <label for="{{ $number }}">
+                                                        <img src="{{ asset($value) }}" alt="img" class="w-75">
+                                                    </label>
+                                                </div>
+                                            </section>
+                                            @php
+                                                $number++;
+                                            @endphp
+                                        @endforeach
+                                    </section>
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
