@@ -52,9 +52,9 @@
                                         </td>
                                         <td>{{ $productCategory->tags }}</td>
                                         <td>
-                                            {{-- <img src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}"
+                                            <img src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}"
                                                 alt="{{ $productCategory->name }}" width="60" height="30"
-                                                style="object-fit: cover"> --}}
+                                                style="object-fit: cover">
                                         </td>
                                         <td>{{ $productCategory->show_in_menu === 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td>{{ $productCategory->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
