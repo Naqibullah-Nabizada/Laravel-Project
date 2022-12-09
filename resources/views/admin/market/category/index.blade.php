@@ -32,46 +32,47 @@
                                 <tr>
                                     <th>#</th>
                                     <th>نام دسته بندی</th>
+                                    <th>توضیحات</th>
                                     <th>دسته والد</th>
+                                    <th>تگ ها</th>
+                                    <th>تصویر</th>
+                                    <th>نمایش در منو</th>
+                                    <th>وضعیت</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>نمایشگر</td>
-                                    <td>کالای الکترونیکی</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
+                                @foreach ($productCategories as $productCategory)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $productCategory->name }}</td>
+                                        <td>{{ Str::limit($productCategory->description, 25) }}</td>
+                                        <td>
+                                            {{ $productCategory->parent_id == null ? 'منوی اصلی' : $productCategory->parent->name }}
+                                        </td>
+                                        <td>{{ $productCategory->tags }}</td>
+                                        <td>
+                                            {{-- <img src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}"
+                                                alt="{{ $productCategory->name }}" width="60" height="30"
+                                                style="object-fit: cover"> --}}
+                                        </td>
+                                        <td>{{ $productCategory->show_in_menu === 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td>{{ $productCategory->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('category.edit', $productCategory->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <form action="{{ route('category.destroy', $productCategory->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -81,4 +82,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection
