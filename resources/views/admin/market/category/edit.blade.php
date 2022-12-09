@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>ایجاد دسته بندی</title>
+    <title>ویرایش دسته بندی</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item"> <a href="#">دسته بندی</a></li>
-            <li class="breadcrumb-item active"> ایجاد دسته بندی</li>
+            <li class="breadcrumb-item active"> ویرایش دسته بندی</li>
         </ol>
     </nav>
 
@@ -27,15 +27,17 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                        <form action="{{ route('category.update', $productCategory->id) }}" method="POST"
+                            enctype="multipart/form-data" id="form">
                             @csrf
+                            @method('PUT')
                             <section class="row">
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام دسته</label>
                                     <input type="text" name="name"
                                         class="form-control form-control-sm @error('name') is-invalid @enderror"
-                                        placeholder="نام دسته" value="{{ old('name') }}">
+                                        placeholder="نام دسته" value="{{ old('name', $productCategory->name) }}">
                                     @error('name')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -43,7 +45,8 @@
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
-                                    <input type="hidden" name="tags" value="{{ old('tags') }}" id="tags">
+                                    <input type="hidden" name="tags" value="{{ old('tags', $productCategory->tags) }}"
+                                        id="tags">
                                     <select class="select2 form-control form-control-sm" id="select_tags" multiple></select>
                                     @error('tags')
                                         <p class="text-danger my-2">{{ $message }}</p>
@@ -54,9 +57,9 @@
                                     <label class="form-label">وضعیت</label>
                                     <select name="status"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('status', $productCategory->status) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('status', $productCategory->status) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('status')
@@ -68,9 +71,9 @@
                                     <label class="form-label">نمایش در منو</label>
                                     <select name="show_in_menu"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('show_in_menu') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('show_in_menu', $productCategory->show_in_menu) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('show_in_menu') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('show_in_menu', $productCategory->show_in_menu) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('show_in_menu')
@@ -91,9 +94,10 @@
                                     <label class="form-label">منوی والد</label>
                                     <select name="parent_id" class="form-control form-control-sm">
                                         <option value="{{ null }}">منوی اصلی</option>
-                                        @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}"
-                                                @if (old('parent_id') == $productCategory->id) selected @endif>{{ $productCategory->name }}
+                                        @foreach ($parentCategories as $parentCategory)
+                                            <option value="{{ $parentCategory->id }}"
+                                                @if (old('parent_id', $productCategory->parent_id) === $parentCategory->id) selected @endif>
+                                                {{ $parentCategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -105,7 +109,7 @@
                                 <div class="form-group col-12">
                                     <label class="form-label">محتوا</label>
                                     <textarea name="description" id="description" rows="7"
-                                        class="form-control @error('description') is-invalid @enderror" placeholder="محتوا">{{ old('description') }}</textarea>
+                                        class="form-control @error('description') is-invalid @enderror" placeholder="محتوا">{{ old('description', $productCategory->description) }}</textarea>
                                     @error('description')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -113,7 +117,7 @@
 
                             </section>
 
-                            <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
+                            <button type="submit" class="btn btn-sm btn-warning">ویرایش</button>
                         </form>
                     </section>
 
