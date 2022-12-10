@@ -22,4 +22,8 @@ class Brand extends Model
 
     //! Image Service
     protected $casts = ['logo' => 'array'];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

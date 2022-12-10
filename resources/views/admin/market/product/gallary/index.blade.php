@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>محصولات</title>
+    <title>گالری محصول</title>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="">خانه</a></li>
             <li class="breadcrumb-item"> <a href="">بخش فروش</a></li>
-            <li class="breadcrumb-item active" aria-current="page"> محصولات</li>
+            <li class="breadcrumb-item active" aria-current="page"> گالری محصول</li>
         </ol>
     </nav>
 
@@ -18,10 +18,12 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش محصولات</h5>
+                    <h5>بخش گالری محصول</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('product.create') }}" class="btn btn-sm btn-primary">ایجاد محصول جدید</a>
+                        <a href="{{ route('product.gallary.create', $product->id) }}" class="btn btn-sm btn-primary">ایجاد گالری محصول</a>
+
+                        <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary">بازگشت</a>
                         <input type="text" class="form-control form-control-sm col-3" placeholder="جستجو">
                     </div>
                     <hr>
@@ -32,39 +34,29 @@
                                 <tr>
                                     <th>#</th>
                                     <th>نام محصول</th>
-                                    <th>تصویر محصول</th>
                                     <th>دسته</th>
-                                    <th>برند</th>
-                                    <th>قیمت</th>
-                                    <th>وزن</th>
-                                    <th class="col-3 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
+                                    <th>گالری</th>
+                                    <th class="col-1 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $product)
+                                @foreach ($gallary as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $product->name }}</td>
+                                        <td>{{ $item->product->category->name }}</td>
                                         <td>
-                                            <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
+                                            <img src="{{ asset($item->image['indexArray'][$item->image['currentImage']]) }}"
                                                 alt="{{ $product->name }}" width="60" height="30"
                                                 style="object-fit: cover">
                                         </td>
-                                        <td>{{ $product->category->name }}</td>
-                                        <td>{{ $product->brand->original_name }}</td>
-                                        <td>{{ $product->price }}</td>
-                                        <td>{{ $product->weight }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('product.gallary.index', $product->id) }}" class="btn btn-sm btn-primary">گالری</a>
-                                            <a href="{{ route('product.color.index', $product->id) }}"
-                                                class="btn btn-sm btn-secondary">رنگ کالا</a>
-                                            <a href="{{ route('product.edit', $product->id) }}"
-                                                class="btn btn-sm btn-warning">ویرایش</a>
-                                            <form action="{{ route('product.destroy', $product->id) }}" method="POST"
-                                                class="d-inline">
+                                            <form action="{{ route('product.gallary.destroy', [$item->id, $product->id]) }}"
+                                                method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
                                                     حذف
                                                 </button>
                                             </form>

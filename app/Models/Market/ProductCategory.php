@@ -20,6 +20,8 @@ class ProductCategory extends Model
 
     protected $fillable = ['name', 'description', 'image', 'slug', 'tags', 'status', 'parent_id', 'show_in_menu'];
 
+    //! Image Service
+    protected $casts = ['image' => 'array'];
 
     public function parent()
     {
@@ -31,6 +33,7 @@ class ProductCategory extends Model
         return $this->hasMany($this, 'parent_id')->with('children');
     }
 
-    //! Image Service
-    protected $casts = ['image' => 'array'];
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

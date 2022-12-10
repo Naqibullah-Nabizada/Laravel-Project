@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\GallaryController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
+use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\StoreController;
@@ -95,9 +96,29 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('/product', ProductController::class);
 
-        Route::get('/gallary', [GallaryController::class], 'index')->name('gallary.index');
-        Route::post('/gallary/store', [GallaryController::class], 'store')->name('gallary.store');
-        Route::get('/gallary/destroy/{id}', [GallaryController::class], 'destroy')->name('gallary.destroy');
+        Route::prefix('product')->group(function () {
+
+            //! Product Color
+            Route::prefix('color')->group(function () {
+                Route::get('/{id}', [ProductColorController::class, 'index'])->name('product.color.index');
+                Route::get('/create/{id}', [ProductColorController::class, 'create'])->name('product.color.create');
+                Route::post('/store/{id}', [ProductColorController::class, 'store'])->name('product.color.store');
+                Route::get('/edit/{id}/{product}', [ProductColorController::class, 'edit'])->name('product.color.edit');
+                Route::put('/update/{id}/{product}', [ProductColorController::class, 'update'])->name('product.color.update');
+                Route::delete('/destroy/{id}/{product}', [ProductColorController::class, 'destroy'])->name('product.color.destroy');
+            });
+
+
+            //! Product Gallary
+            Route::prefix('gallary')->group(function () {
+                Route::get('/{id}', [GallaryController::class, 'index'])->name('product.gallary.index');
+                Route::get('/create/{id}', [GallaryController::class, 'create'])->name('product.gallary.create');
+                Route::post('/store/{id}', [GallaryController::class, 'store'])->name('product.gallary.store');
+                Route::delete('/destroy/{id}/{product}', [GallaryController::class, 'destroy'])->name('product.gallary.destroy');
+            });
+        });
+
+
 
         Route::resource('/property', PropertyController::class);
         Route::resource('/store', StoreController::class);

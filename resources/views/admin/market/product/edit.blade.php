@@ -2,7 +2,7 @@
 
 @section('head-tag')
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
-    <title>ایجاد محصول</title>
+    <title>ویرایش محصول</title>
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item"> <a href="#">محصولات</a></li>
-            <li class="breadcrumb-item active"> ایجاد محصول</li>
+            <li class="breadcrumb-item active"> ویرایش محصول</li>
         </ol>
     </nav>
 
@@ -20,7 +20,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش محصول</h5>
+                    <h5>بخش ویرایش محصول</h5>
 
                     <div class="d-flex justify-content-between my-3">
                         <a href="{{ route('product.index') }}" class="btn btn-sm btn-primary">بازگشت</a>
@@ -28,14 +28,16 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                        <form action="{{ route('product.update', $product->id) }}" method="POST"
+                            enctype="multipart/form-data" id="form">
                             @csrf
+                            @method('PUT')
                             <section class="row border-bottom">
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام محصول</label>
                                     <input type="text" name="name" class="form-control form-control-sm"
-                                        placeholder="نام محصول" value="{{ old('name') }}">
+                                        placeholder="نام محصول" value="{{ old('name', $product->name) }}">
                                     @error('name')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -44,7 +46,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">برچسپ ها</label>
                                     <input type="hidden" name="tags" class="form-control form-control-sm"
-                                        placeholder="برچسپ ها" value="{{ old('tags') }}" id="tags">
+                                        placeholder="برچسپ ها" value="{{ old('tags', $product->tags) }}" id="tags">
                                     <select class="select2 form-control form-control-sm" id="select_tags" multiple></select>
                                     @error('tags')
                                         <p class="text-danger my-2">{{ $message }}</p>
@@ -57,7 +59,7 @@
                                         <option>دسته را انتخاب کنید</option>
                                         @foreach ($productCategories as $productCategory)
                                             <option value="{{ $productCategory->id }}"
-                                                @if (old('category_id') == $productCategory->id) selected @endif>
+                                                @if (old('category_id', $product->category_id) == $productCategory->id) selected @endif>
                                                 {{ $productCategory->name }}
                                             </option>
                                         @endforeach
@@ -73,7 +75,8 @@
                                         <option>برند را انتخاب کنید</option>
                                         @foreach ($brands as $brand)
                                             <option value="{{ $brand->id }}"
-                                                @if (old('brand_id') == $brand->id) selected @endif>{{ $brand->original_name }}
+                                                @if (old('brand_id', $product->brand_id) == $brand->id) selected @endif>
+                                                {{ $brand->original_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -99,12 +102,33 @@
                                     @error('image')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
+
+                                    <section class="row my-2">
+                                        @php
+                                            $number = 1;
+                                        @endphp
+                                        @foreach ($product->image['indexArray'] as $key => $value)
+                                            <section class="col-md-{{ 6 / $number }}">
+                                                <div class="form-check">
+                                                    <input type="radio" name="currentImage" id="{{ $number }}"
+                                                        class="form-check-input" value="{{ $key }}"
+                                                        @if ($product->image['currentImage'] == $key) checked @endIf>
+                                                    <label for="{{ $number }}">
+                                                        <img src="{{ asset($value) }}" alt="img" class="w-75">
+                                                    </label>
+                                                </div>
+                                            </section>
+                                            @php
+                                                $number++;
+                                            @endphp
+                                        @endforeach
+                                    </section>
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">وزن</label>
                                     <input type="text" name="weight" class="form-control form-control-sm"
-                                        placeholder="وزن" value="{{ old('weight') }}">
+                                        placeholder="وزن" value="{{ old('weight', $product->weight) }}">
                                     @error('weight')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -113,7 +137,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">ارتفاع</label>
                                     <input type="text" name="height" class="form-control form-control-sm"
-                                        placeholder="ارتفاع" value="{{ old('height') }}">
+                                        placeholder="ارتفاع" value="{{ old('height', $product->height) }}">
                                     @error('height')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -122,7 +146,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">طول</label>
                                     <input type="text" name="length" class="form-control form-control-sm"
-                                        placeholder="طول" value="{{ old('length') }}">
+                                        placeholder="طول" value="{{ old('length', $product->length) }}">
                                     @error('length')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -131,7 +155,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">عرض</label>
                                     <input type="text" name="width" class="form-control form-control-sm"
-                                        placeholder="عرض" value="{{ old('width') }}">
+                                        placeholder="عرض" value="{{ old('width', $product->width) }}">
                                     @error('width')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -140,7 +164,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">قیمت کالا</label>
                                     <input type="text" name="price" class="form-control form-control-sm"
-                                        placeholder="قیمت کالا" value="{{ old('price') }}">
+                                        placeholder="قیمت کالا" value="{{ old('price', $product->price) }}">
                                     @error('price')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -150,9 +174,9 @@
                                     <label class="form-label">وضعیت</label>
                                     <select name="status"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('status', $product->status) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('status', $product->status) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('status')
@@ -164,9 +188,9 @@
                                     <label class="form-label">قابل فروش بودن</label>
                                     <select name="marketable"
                                         class="form-control form-control-sm @error('marketable') is-invalid @enderror">
-                                        <option value="0" @if (old('marketable') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('marketable', $product->marketable) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('marketable') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('marketable', $product->marketable) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('marketable')
@@ -176,34 +200,33 @@
 
                                 <div class="form-group col-12">
                                     <label class="form-label">توضیحات</label>
-                                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{ old('introduction') }}</textarea>
+                                    <textarea name="introduction" id="introduction" rows="5" class="form-control">{{ old('introduction', $product->introduction) }}</textarea>
                                     @error('introduction')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
-                                <section class="row col-12 border-top p-2 mx-1">
+                                @foreach ($product->metas as $meta)
+                                    <section class="row col-12 border-top p-2 mx-1">
 
-                                    <div class="form-group col-6">
-                                        <input type="text" name="meta_key[]" class="form-control form-control-sm"
-                                            placeholder="ویژگی...">
-                                    </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" name="meta_key[{{ $meta->id }}]" class="form-control form-control-sm"
+                                                placeholder="ویژگی..." value="{{ $meta->meta_key }}">
+                                        </div>
 
-                                    <div class="form-group col-6">
-                                        <input type="text" name="meta_value[]" class="form-control form-control-sm"
-                                            placeholder="مقدار...">
-                                    </div>
-                                </section>
-
-                                <div class="mx-4 mb-2">
-                                    <input type="button" class="btn btn-sm btn-success" value="افزودن" id="btn-copy">
-                                </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" name="meta_value[]"
+                                                class="form-control form-control-sm" placeholder="مقدار..."
+                                                value="{{ $meta->meta_value }}">
+                                        </div>
+                                    </section>
+                                @endforeach
 
                             </section>
 
                     </section>
 
-                    <button type="submit" class="btn btn-sm btn-primary m-3">ثبت</button>
+                    <button type="submit" class="btn btn-sm btn-warning m-3">ویرایش</button>
                     </form>
                 </section>
 
@@ -265,14 +288,5 @@
 
             });
         });
-    </script>
-
-    <script>
-        $(function() {
-            $('#btn-copy').on('click', function() {
-                let ele = $(this).parent().prev().clone(true);
-                $(this).before(ele);
-            })
-        })
     </script>
 @endsection

@@ -19,23 +19,22 @@ return new class extends Migration
             $table->text('introduction');
             $table->string('slug')->unique()->nullable();
             $table->string('image');
-            $table->decimal('weight', 12,2);
-            $table->decimal('length', 12,1);
-            $table->decimal('width', 12,1);
-            $table->decimal('height', 12,1);
-            $table->decimal('price', 20,3);
+            $table->decimal('weight', 12, 2);
+            $table->decimal('length', 12, 1);
+            $table->decimal('width', 12, 1);
+            $table->decimal('height', 12, 1);
+            $table->decimal('price', 20, 3);
             $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('marketable')->default(1 );
-            $table->string('tag');
+            $table->tinyInteger('marketable')->default(1);
+            $table->string('tags');
             $table->tinyInteger('sold_number')->default(0);
             $table->tinyInteger('frozen_number')->default(0);
             $table->tinyInteger('marketable_number')->default(0);
             $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('category _id')->constrained('product_categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('published_at');
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

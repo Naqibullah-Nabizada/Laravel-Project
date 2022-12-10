@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>محصولات</title>
+    <title>رنگ محصول</title>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="">خانه</a></li>
             <li class="breadcrumb-item"> <a href="">بخش فروش</a></li>
-            <li class="breadcrumb-item active" aria-current="page"> محصولات</li>
+            <li class="breadcrumb-item active" aria-current="page"> رنگ محصول</li>
         </ol>
     </nav>
 
@@ -18,10 +18,13 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش محصولات</h5>
+                    <h5>بخش رنگ محصول</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('product.create') }}" class="btn btn-sm btn-primary">ایجاد محصول جدید</a>
+                        <a href="{{ route('product.color.create', $product->id) }}" class="btn btn-sm btn-primary">ایجاد رنگ
+                            محصول </a>
+
+                        <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary">بازگشت</a>
                         <input type="text" class="form-control form-control-sm col-3" placeholder="جستجو">
                     </div>
                     <hr>
@@ -34,37 +37,37 @@
                                     <th>نام محصول</th>
                                     <th>تصویر محصول</th>
                                     <th>دسته</th>
-                                    <th>برند</th>
-                                    <th>قیمت</th>
-                                    <th>وزن</th>
-                                    <th class="col-3 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
+                                    <th>رنگ</th>
+                                    <th>افزایش قیمت</th>
+                                    <th>وضعیت</th>
+                                    <th class="col-2 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $product)
+                                @foreach ($colors as $color)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>
-                                            <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
+                                            <img src="{{ asset($color->product->image['indexArray'][$product->image['currentImage']]) }}"
                                                 alt="{{ $product->name }}" width="60" height="30"
                                                 style="object-fit: cover">
                                         </td>
-                                        <td>{{ $product->category->name }}</td>
-                                        <td>{{ $product->brand->original_name }}</td>
-                                        <td>{{ $product->price }}</td>
-                                        <td>{{ $product->weight }}</td>
+                                        <td>{{ $color->product->category->name }}</td>
+                                        <td>{{ $color->color_name }}</td>
+                                        <td>{{ $color->price_increase }}</td>
+                                        <td>{{ $color->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('product.gallary.index', $product->id) }}" class="btn btn-sm btn-primary">گالری</a>
-                                            <a href="{{ route('product.color.index', $product->id) }}"
-                                                class="btn btn-sm btn-secondary">رنگ کالا</a>
-                                            <a href="{{ route('product.edit', $product->id) }}"
-                                                class="btn btn-sm btn-warning">ویرایش</a>
-                                            <form action="{{ route('product.destroy', $product->id) }}" method="POST"
-                                                class="d-inline">
+                                            <a href="{{ route('product.color.edit', [$color->id, $product->id]) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="fa fa-edit mx-1"></i>ویرایش
+                                            </a>
+                                            <form action="{{ route('product.color.destroy', [$color->id, $product->id]) }}"
+                                                method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
                                                     حذف
                                                 </button>
                                             </form>
