@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\CategoryAttribute\StoreCategoryAttributeRequest;
+use App\Http\Requests\Admin\Market\CategoryAttribute\UpdateCategoryAttributeRequest;
+use App\Models\Market\CategoryAttribute;
+use App\Models\Market\ProductCategory;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -14,7 +18,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view('admin.market.property.index');
+        $category_attributes = CategoryAttribute::orderBy('id', 'desc')->get();
+        return view('admin.market.property.index', compact('category_attributes'));
     }
 
     /**
@@ -24,7 +29,8 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return view('admin.market.property.create');
+        $product_categories = ProductCategory::all();
+        return view('admin.market.property.create', compact('product_categories'));
     }
 
     /**
@@ -33,9 +39,10 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryAttributeRequest $request)
     {
-        //
+        CategoryAttribute::create($request->all());
+        return redirect()->route('property.index')->with('swal-success', 'فرم کالا با موفقیت اضافه شد');
     }
 
     /**
@@ -57,7 +64,9 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product_categories = ProductCategory::all();
+        $category_attribute = CategoryAttribute::FindOrFail($id);
+        return view('admin.market.property.edit', compact('category_attribute', 'product_categories'));
     }
 
     /**
@@ -67,9 +76,11 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryAttributeRequest $request, $id)
     {
-        //
+        $category_attribute = CategoryAttribute::FindOrFail($id);
+        $category_attribute->update($request->all());
+        return redirect()->route('property.index')->with('swal-success', 'فرم کالا با موفقیت ویرایش شد');
     }
 
     /**
@@ -80,6 +91,8 @@ class PropertyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category_attribute = CategoryAttribute::FindOrFail($id);
+        $category_attribute->destroy($id);
+        return redirect()->route('property.index')->with('swal-success', 'فرم کالا با موفقیت حذف شد');
     }
 }

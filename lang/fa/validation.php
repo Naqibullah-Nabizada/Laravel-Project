@@ -195,5 +195,9 @@ return [
         'brand_id'              => 'برند',
         'color_name'            => 'نام زنگ',
         'price_increase'        => 'افزایش قیمت',
+        'unit'                  => 'واحد اندازه گیری',
+        'type'                  => 'نوع',
+        'value'                 => 'مقدار',
+        'product_id'            => 'محصول',
     ],
 ];

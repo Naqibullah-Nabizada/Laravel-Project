@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
+use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
@@ -121,6 +122,18 @@ Route::prefix('admin')->group(function () {
 
 
         Route::resource('/property', PropertyController::class);
+
+        Route::prefix('property')->group(function () {
+            Route::prefix('value')->group(function () {
+                Route::get('/{id}', [PropertyValueController::class, 'index'])->name('property.value.index');
+                Route::get('/create/{id}', [PropertyValueController::class, 'create'])->name('property.value.create');
+                Route::post('/store/{id}', [PropertyValueController::class, 'store'])->name('property.value.store');
+                Route::get('/edit/{id}/{value}', [PropertyValueController::class, 'edit'])->name('property.value.edit');
+                Route::put('/update/{id}/{value}', [PropertyValueController::class, 'update'])->name('property.value.update');
+                Route::delete('/destroy/{id}/{value}', [PropertyValueController::class, 'destroy'])->name('property.value.destroy');
+            });
+        });
+
         Route::resource('/store', StoreController::class);
     });
 
