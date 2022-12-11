@@ -31,45 +31,62 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>نظر</th>
+                                    <th>پاسخ به</th>
                                     <th>کد کاربر</th>
                                     <th>نوسینده نظر</th>
-                                    <th>کد کالا</th>
-                                    <th>کالا</th>
-                                    <th>وضعیت</th>
+                                    <th>کد محصول</th>
+                                    <th>محصول</th>
+                                    <th class="col-1">وضعیت</th>
+                                    <th class="col-1">وضعیت نظر</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>293883</td>
-                                    <td>حسن احمدی</td>
-                                    <td>3990</td>
-                                    <td>آیفون ۱۲</td>
-                                    <td>در انتظار تایید</td>
-                                    <td class="text-left">
-                                        <a href="{{ route('comment.show', 1) }}" class="btn btn-sm btn-info"><i
-                                                class="fa fa-eye mx-1"></i>نمایش</a>
-                                        <a href="" class="btn btn-sm btn-success"><i
-                                                class="fa fa-check mx-1"></i>تایید</a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>2</td>
-                                    <td>293883</td>
-                                    <td>حسن احمدی</td>
-                                    <td>3990</td>
-                                    <td>آیفون ۱۲</td>
-                                    <td>تایید</td>
-                                    <td class="text-left">
-                                        <a href="{{ route('comment.show', 1) }}" class="btn btn-sm btn-info"><i
-                                                class="fa fa-eye mx-1"></i>نمایش</a>
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-clock"></i>عدم تایید</a>
-                                    </td>
-                                </tr>
-
+                                @foreach ($comments as $key => $comment)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ Str::limit($comment->body, 20) }}</td>
+                                        <td>{{ $comment->parent_id ? Str::limit($comment->parent->body, 20) : null }}</td>
+                                        <td>{{ $comment->author_id }}</td>
+                                        <td>{{ $comment->user->fullName }}</td>
+                                        <td>{{ $comment->commentable_id }}</td>
+                                        <td>{{ $comment->commentable->name }}</td>
+                                        <td>
+                                            <a href="{{ route('product.comment.status', $comment->id) }}">
+                                                @if ($comment->status == 0)
+                                                    <span class="btn btn-sm btn-warning">
+                                                        <i class="fa fa-clock"> غیر فعال</i>
+                                                    </span>
+                                                @else
+                                                    <span class="btn btn-sm btn-success">
+                                                        <i class="fa fa-check"> فعال</i>
+                                                    </span>
+                                                @endif
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if ($comment->approved == 0)
+                                                <a href="{{ route('product.comment.approved', $comment->id) }}"
+                                                    class="btn btn-sm btn-warning"><i></i>عدم تایید</a>
+                                            @else
+                                                <a href="{{ route('product.comment.approved', $comment->id) }}"
+                                                    class="btn btn-sm btn-success"><i class="fa fa-check mx-1"></i>تایید</a>
+                                            @endif
+                                        </td>
+                                        <td class="text-left">
+                                            <a href="{{ route('product.comment.show', $comment->id) }}"
+                                                class="btn btn-sm btn-info"><i class="fa fa-eye mx-1"></i>نمایش</a>
+                                            <form action="{{ route('product.comment.destroy', $comment->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -79,4 +96,8 @@
             </section>
         </section>
     </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

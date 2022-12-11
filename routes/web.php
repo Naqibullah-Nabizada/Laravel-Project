@@ -135,6 +135,19 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::resource('/store', StoreController::class);
+
+        // //! Products Comments
+        Route::prefix('comment')->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('product.comment.index');
+            Route::get('/show/{id}', [CommentController::class, 'show'])->name('product.comment.show');
+            Route::post('/store', [CommentController::class, 'store'])->name('product.comment.store');
+            Route::get('/edit/{id}', [CommentController::class, 'edit'])->name('product.comment.edit');
+            Route::put('/update/{id}', [CommentController::class, 'update'])->name('product.comment.update');
+            Route::delete('/destroy/{id}', [CommentController::class, 'destroy'])->name('product.comment.destroy');
+            Route::get('/approve/{id}', [CommentController::class, 'approved'])->name('product.comment.approved');
+            Route::get('/status/{id}', [CommentController::class, 'status'])->name('product.comment.status');
+            Route::post('/answer/{id}', [CommentController::class, 'answer'])->name('product.comment.answer');
+        });
     });
 
 
@@ -154,7 +167,7 @@ Route::prefix('admin')->group(function () {
 
         Route::prefix('comment')->group(function () {
             Route::get('/', [ContentCommentController::class, 'index'])->name('content.comment.index');
-            Route::get('/show{id}', [ContentCommentController::class, 'show'])->name('content.comment.show');
+            Route::get('/show/{id}', [ContentCommentController::class, 'show'])->name('content.comment.show');
             Route::post('/store', [ContentCommentController::class, 'store'])->name('content.comment.store');
             Route::get('/edit/{id}', [ContentCommentController::class, 'edit'])->name('content.comment.edit');
             Route::put('/update/{id}', [ContentCommentController::class, 'update'])->name('content.comment.update');
