@@ -21,7 +21,7 @@
                     <h5>بخش انبار</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="#" class="btn btn-sm btn-primary disabled">ایجاد انبار جدید</a>
+                        <a class="btn btn-sm btn-primary disabled">ایجاد انبار جدید</a>
                         <input type="text" class="form-control form-control-sm col-3" placeholder="جستجو">
                     </div>
                     <hr>
@@ -32,30 +32,38 @@
                                 <tr>
                                     <th>#</th>
                                     <th>نام کالا</th>
+                                    <th>برند کالا</th>
+                                    <th>دسته کالا</th>
                                     <th>تصویر کالا</th>
-                                    <th>موجودی</th>
-                                    <th>انبار</th>
-                                    <th>خروجی انبار</th>
+                                    <th>کالای قابل فروش</th>
+                                    <th>کالای ریزرف شده</th>
+                                    <th>کالای فروختده شده</th>
                                     <th class="col-3 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>سامسونگ</td>
-                                    <td>عکس</td>
-                                    <td>12</td>
-                                    <td>334</td>
-                                    <td>34</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('store.create') }}" class="btn btn-sm btn-primary"><i
-                                                class="fa fa-plus mx-1"></i>افزایش موجودی</a>
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>اصلاح موجودی</a>
-                                    </td>
-                                </tr>
-
-
+                                @foreach ($products as $product)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->brand->original_name }}</td>
+                                        <td>{{ $product->category->name }}</td>
+                                        <td>
+                                            <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
+                                                alt="{{ $product->name }}" width="60" height="30"
+                                                style="object-fit: cover">
+                                        </td>
+                                        <td>{{ $product->marketable_number }}</td>
+                                        <td>{{ $product->frozen_number }}</td>
+                                        <td>{{ $product->sold_number }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('product.store.add-to-store', $product->id) }}" class="btn btn-sm btn-primary"><i
+                                                    class="fa fa-plus mx-1"></i>افزایش موجودی</a>
+                                            <a href="{{ route('product.store.edit', $product->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>اصلاح موجودی</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>

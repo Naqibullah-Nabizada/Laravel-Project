@@ -22,38 +22,54 @@
                     <h5>بخش اضافه کردن به انبار</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('store.index') }}" class="btn btn-sm btn-primary">بازگشت</a>
+                        <a href="{{ route('product.store.index') }}" class="btn btn-sm btn-primary">بازگشت</a>
                     </div>
                     <hr>
 
                     <section>
-                        <form action="" method="">
+                        <form action="{{ route('product.store.store', $product->id) }}" method="POST">
+                            @csrf
                             <section class="row">
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام تحویل گیرنده</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="نام تحویل گیرنده">
+                                    <input type="text" name="receiver" class="form-control form-control-sm"
+                                        placeholder="نام تحویل گیرنده" value="{{ old('reciver') }}">
+                                    @error('receiver')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام تحویل دهنده</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="نام تحویل دهنده">
+                                    <input type="text" name="deliverer" class="form-control form-control-sm"
+                                        placeholder="نام تحویل دهنده" value="{{ old('deliverer') }}">
+                                    @error('deliverer')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">تعداد</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="تعداد">
+                                    <input type="text" name="marketable_number" class="form-control form-control-sm"
+                                        placeholder="تعداد" value="{{ old('marketable_number') }}">
+                                    @error('marketable_number')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group col-12">
                                     <label class="form-label">توضیحات</label>
-                                    <textarea name="" id="" rows="5" class="form-control"></textarea>
+                                    <textarea name="description" rows="5" class="form-control">{{ old('description') }}</textarea>
+                                    @error('description')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
 
                             </section>
 
-                            <a href="#" class="btn btn-sm btn-primary">ثبت</a>
+                            <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
                         </form>
                     </section>
 

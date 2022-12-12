@@ -20,7 +20,7 @@
                     <a href="{{ route('property.index') }}">فرم کالا</a>
                     <a href="{{ route('brand.index') }}">برندها</a>
                     <a href="{{ route('product.index') }}">کالاها</a>
-                    <a href="{{ route('store.index') }}">انبار</a>
+                    <a href="{{ route('product.store.index') }}">انبار</a>
                     <a href="{{ route('product.comment.index') }}">نظرات</a>
                 </section>
             </section>

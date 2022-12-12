@@ -199,5 +199,10 @@ return [
         'type'                  => 'نوع',
         'value'                 => 'مقدار',
         'product_id'            => 'محصول',
+        'meta_key.*'            => 'ویژگی',
+        'meta_value.*'          => 'مقدار',
+        'receiver'               => 'تحویل گیرنده',
+        'deliverer'             => 'تحویل دهنده',
+        'marketable_number'     => 'تعداد',
     ],
 ];

@@ -28,7 +28,8 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data"
+                            id="form">
                             @csrf
                             <section class="row border-bottom">
 
@@ -73,7 +74,8 @@
                                         <option>برند را انتخاب کنید</option>
                                         @foreach ($brands as $brand)
                                             <option value="{{ $brand->id }}"
-                                                @if (old('brand_id') == $brand->id) selected @endif>{{ $brand->original_name }}
+                                                @if (old('brand_id') == $brand->id) selected @endif>
+                                                {{ $brand->original_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -187,11 +189,17 @@
                                     <div class="form-group col-6">
                                         <input type="text" name="meta_key[]" class="form-control form-control-sm"
                                             placeholder="ویژگی...">
+                                        @error('meta_key.*')
+                                            <p class="text-danger my-2">{{ $message }}</p>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group col-6">
                                         <input type="text" name="meta_value[]" class="form-control form-control-sm"
                                             placeholder="مقدار...">
+                                        @error('meta_value.*')
+                                            <p class="text-danger my-2">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </section>
 

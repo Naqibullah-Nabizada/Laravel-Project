@@ -134,7 +134,14 @@ Route::prefix('admin')->group(function () {
             });
         });
 
-        Route::resource('/store', StoreController::class);
+
+        Route::prefix('store')->group(function () {
+            Route::get('/', [StoreController::class, 'index'])->name('product.store.index');
+            Route::get('/add-to-store/{id}', [StoreController::class, 'addToStore'])->name('product.store.add-to-store');
+            Route::post('/store/{id}', [StoreController::class, 'store'])->name('product.store.store');
+            Route::get('/edit/{id}', [StoreController::class, 'edit'])->name('product.store.edit');
+            Route::put('/update/{id}', [StoreController::class, 'update'])->name('product.store.update');
+        });
 
         // //! Products Comments
         Route::prefix('comment')->group(function () {
