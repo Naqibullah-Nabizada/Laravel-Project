@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>ایجاد تخفیف های عمومی</title>
+    <title>ویرایش کالا فروش شگفت انگیز</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
@@ -10,8 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش فروش</a></li>
-            <li class="breadcrumb-item"> <a href="#">روش ارسال</a></li>
-            <li class="breadcrumb-item active"> ایجاد تخفیف های عمومی جدید</li>
+            <li class="breadcrumb-item"> <a href="#">فروش شگفت انگیز</a></li>
+            <li class="breadcrumb-item active"> ویرایش کالا فروش شگفت انگیز</li>
         </ol>
     </nav>
 
@@ -20,23 +20,31 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش ایجاد تخفیف های عمومی</h5>
+                    <h5>بخش ویرایش کالا فروش شگفت انگیز</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('admin.market.discount.commonDiscount') }}"
-                            class="btn btn-sm btn-primary">بازگشت</a>
+                        <a href="{{ route('admin.market.discount.amazingSale') }}" class="btn btn-sm btn-primary">بازگشت</a>
                     </div>
                     <hr>
 
                     <section>
-                        <form action="{{ route('admin.market.discount.commonDiscount.store') }}" method="POST">
+                        <form action="{{ route('admin.market.discount.amazingSale.update', $amazingSale->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <section class="row">
+
                                 <div class="form-group col-12 col-md-6">
-                                    <label class="form-label">عنوان مناسبت</label>
-                                    <input type="text" name="title" class="form-control form-control-sm"
-                                        placeholder="عنوان مناسبت" value="{{ old('title') }}">
-                                    @error('title')
+                                    <label class="form-label">انتخاب کالا</label>
+                                    <select name="product_id" class="form-control form-control-sm">
+                                        <option>کالا را انتخاب کنید</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->id }}"
+                                                @if (old('product_id', $amazingSale->product_id) == $product->id) selected @endif>
+                                                {{ $product->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('product_id')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -44,26 +52,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">میزان تخفیف</label>
                                     <input type="text" name="percentage" class="form-control form-control-sm"
-                                        placeholder="میزان تخفیف" value="{{ old('percentage') }}">
+                                        placeholder="میزان تخفیف" value="{{ old('percentage', $amazingSale->percentage) }}">
                                     @error('percentage')
-                                        <p class="text-danger my-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label class="form-label">سقف تخفیف</label>
-                                    <input type="text" name="discount_ceiling" class="form-control form-control-sm"
-                                        placeholder="سقف تخفیف" value="{{ old('discount_ceiling') }}">
-                                    @error('discount_ceiling')
-                                        <p class="text-danger my-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label class="form-label">حداقل مبلغ خرید</label>
-                                    <input type="text" name="minimal_order_amount" class="form-control form-control-sm"
-                                        placeholder="حداقل مبلغ خرید" value="{{ old('minimal_order_amount') }}">
-                                    @error('minimal_order_amount')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -73,7 +63,7 @@
                                     <input type="text" name="start_date" id="start_date"
                                         class="form-control form-control-sm d-none">
                                     <input type="text" id="start_date_view" class="form-control form-control-sm"
-                                        placeholder="تاریخ شروع تخفیف" value="{{ old('start_date') }}">
+                                        placeholder="تاریخ شروع تخفیف" value="{{ old('start_date', $amazingSale->start_date) }}">
                                     @error('start_date')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -84,7 +74,7 @@
                                     <input type="text" name="end_date" id="end_date"
                                         class="form-control form-control-sm d-none">
                                     <input type="text" id="end_date_view" class="form-control form-control-sm"
-                                        placeholder="تاریخ پایان تخفیف" value="{{ old('end_date') }}">
+                                        placeholder="تاریخ پایان تخفیف" value="{{ old('end_date', $amazingSale->end_date) }}">
                                     @error('end_date')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -94,19 +84,18 @@
                                     <label class="form-label">وضعیت</label>
                                     <select name="status"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('status', $amazingSale->status) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('status', $amazingSale->status) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('status')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
-
                             </section>
 
-                            <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
+                            <button type="submit" class="btn btn-sm btn-warning">ویرایشّ</button>
                         </form>
                     </section>
 
@@ -116,7 +105,6 @@
         </section>
     </section>
 @endsection
-
 @section('script')
     {{-- ! Jalai Date --}}
 

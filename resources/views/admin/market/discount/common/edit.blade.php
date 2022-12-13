@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>ایجاد تخفیف های عمومی</title>
+    <title>ویرایش تخفیف های عمومی</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
@@ -11,7 +11,7 @@
             <li class="breadcrumb-item"> <a href="#">خانه</a></li>
             <li class="breadcrumb-item"> <a href="#">بخش فروش</a></li>
             <li class="breadcrumb-item"> <a href="#">روش ارسال</a></li>
-            <li class="breadcrumb-item active"> ایجاد تخفیف های عمومی جدید</li>
+            <li class="breadcrumb-item active"> ویرایش تخفیف های عمومی</li>
         </ol>
     </nav>
 
@@ -20,7 +20,7 @@
             <section class="main-body-container">
                 <section class="main-body-container-header">
 
-                    <h5>بخش ایجاد تخفیف های عمومی</h5>
+                    <h5>بخش ویرایش تخفیف های عمومی</h5>
 
                     <div class="d-flex justify-content-between my-3">
                         <a href="{{ route('admin.market.discount.commonDiscount') }}"
@@ -29,13 +29,15 @@
                     <hr>
 
                     <section>
-                        <form action="{{ route('admin.market.discount.commonDiscount.store') }}" method="POST">
+                        <form action="{{ route('admin.market.discount.commonDiscount.update', $commonDiscount->id) }}"
+                            method="POST">
                             @csrf
+                            @method('PUT')
                             <section class="row">
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">عنوان مناسبت</label>
                                     <input type="text" name="title" class="form-control form-control-sm"
-                                        placeholder="عنوان مناسبت" value="{{ old('title') }}">
+                                        placeholder="عنوان مناسبت" value="{{ old('title', $commonDiscount->title) }}">
                                     @error('title')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -44,7 +46,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">میزان تخفیف</label>
                                     <input type="text" name="percentage" class="form-control form-control-sm"
-                                        placeholder="میزان تخفیف" value="{{ old('percentage') }}">
+                                        placeholder="میزان تخفیف"
+                                        value="{{ old('percentage', $commonDiscount->percentage) }}">
                                     @error('percentage')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -53,7 +56,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">سقف تخفیف</label>
                                     <input type="text" name="discount_ceiling" class="form-control form-control-sm"
-                                        placeholder="سقف تخفیف" value="{{ old('discount_ceiling') }}">
+                                        placeholder="سقف تخفیف"
+                                        value="{{ old('discount_ceiling', $commonDiscount->discount_ceiling) }}">
                                     @error('discount_ceiling')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -62,7 +66,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">حداقل مبلغ خرید</label>
                                     <input type="text" name="minimal_order_amount" class="form-control form-control-sm"
-                                        placeholder="حداقل مبلغ خرید" value="{{ old('minimal_order_amount') }}">
+                                        placeholder="حداقل مبلغ خرید"
+                                        value="{{ old('minimal_order_amount', $commonDiscount->minimal_order_amount) }}">
                                     @error('minimal_order_amount')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -73,7 +78,8 @@
                                     <input type="text" name="start_date" id="start_date"
                                         class="form-control form-control-sm d-none">
                                     <input type="text" id="start_date_view" class="form-control form-control-sm"
-                                        placeholder="تاریخ شروع تخفیف" value="{{ old('start_date') }}">
+                                        placeholder="تاریخ شروع تخفیف"
+                                        value="{{ old('start_date', $commonDiscount->start_date) }}">
                                     @error('start_date')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -84,7 +90,8 @@
                                     <input type="text" name="end_date" id="end_date"
                                         class="form-control form-control-sm d-none">
                                     <input type="text" id="end_date_view" class="form-control form-control-sm"
-                                        placeholder="تاریخ پایان تخفیف" value="{{ old('end_date') }}">
+                                        placeholder="تاریخ پایان تخفیف"
+                                        value="{{ old('end_date', $commonDiscount->end_date) }}">
                                     @error('end_date')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
@@ -94,9 +101,9 @@
                                     <label class="form-label">وضعیت</label>
                                     <select name="status"
                                         class="form-control form-control-sm @error('status') is-invalid @enderror">
-                                        <option value="0" @if (old('status') == 0) selected @endif>غیر فعال
+                                        <option value="0" @if (old('status', $commonDiscount->status) == 0) selected @endif>غیر فعال
                                         </option>
-                                        <option value="1" @if (old('status') == 1) selected @endif>فعال
+                                        <option value="1" @if (old('status', $commonDiscount->status) == 1) selected @endif>فعال
                                         </option>
                                     </select>
                                     @error('status')
@@ -106,7 +113,7 @@
 
                             </section>
 
-                            <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
+                            <button type="submit" class="btn btn-sm btn-warning">ویرایش</button>
                         </form>
                     </section>
 

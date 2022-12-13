@@ -68,10 +68,25 @@ Route::prefix('admin')->group(function () {
         Route::prefix('discount')->group(function () {
             Route::get('/copan', [DiscountController::class, 'copan'])->name('admin.market.discount.copan');
             Route::get('/copan/create', [DiscountController::class, 'copanCreate'])->name('admin.market.discount.copan.create');
-            Route::get('/common-discount', [DiscountController::class, 'commonDiscount'])->name('admin.market.discount.commonDiscount');
-            Route::get('/common-discount/create', [DiscountController::class, 'commonDiscountCreate'])->name('admin.market.discount.commonDiscount.create');
-            Route::get('/amazing-sale', [DiscountController::class, 'amazingSale'])->name('admin.market.discount.amazingSale');
-            Route::get('/amazing-sale/create', [DiscountController::class, 'amazingSaleCreate'])->name('admin.market.discount.amazingSale.create');
+
+            Route::prefix('common-discount')->group(function () {
+
+                Route::get('/', [DiscountController::class, 'commonDiscount'])->name('admin.market.discount.commonDiscount');
+                Route::get('/create', [DiscountController::class, 'commonDiscountCreate'])->name('admin.market.discount.commonDiscount.create');
+                Route::post('/store', [DiscountController::class, 'commonDiscountStore'])->name('admin.market.discount.commonDiscount.store');
+                Route::get('/edit/{id}', [DiscountController::class, 'commonDiscountEdit'])->name('admin.market.discount.commonDiscount.edit');
+                Route::put('/update/{id}', [DiscountController::class, 'commonDiscountUpdate'])->name('admin.market.discount.commonDiscount.update');
+                Route::delete('/destroy/{id}', [DiscountController::class, 'commonDiscountDistroy'])->name('admin.market.discount.commonDiscount.destroy');
+            });
+
+            Route::prefix('amazing-sale')->group(function () {
+                Route::get('/', [DiscountController::class, 'amazingSale'])->name('admin.market.discount.amazingSale');
+                Route::get('/create', [DiscountController::class, 'amazingSaleCreate'])->name('admin.market.discount.amazingSale.create');
+                Route::post('/store', [DiscountController::class, 'amazingSaleStore'])->name('admin.market.discount.amazingSale.store');
+                Route::get('/edit/{id}', [DiscountController::class, 'amazingSaleEdit'])->name('admin.market.discount.amazingSale.edit');
+                Route::put('/update/{id}', [DiscountController::class, 'amazingSaleUpdate'])->name('admin.market.discount.amazingSale.update');
+                Route::delete('/destroy/{id}', [DiscountController::class, 'amazingSaleDestroy'])->name('admin.market.discount.amazingSale.destroy');
+            });
         });
 
         Route::prefix('order')->group(function () {

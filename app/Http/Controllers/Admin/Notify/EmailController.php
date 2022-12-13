@@ -83,6 +83,7 @@ class EmailController extends Controller
         //! fixed date
         $realTimestampStart = substr($request->published_at, 0, 10);
         $email['published_at'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
         Email::FindOrFail($id)->update($email);
         return redirect()->route('email.index')->with('swal-success', 'ایمیل با موفقیت ویرایش شد');
     }

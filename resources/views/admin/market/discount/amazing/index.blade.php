@@ -21,7 +21,8 @@
                     <h5>بخش فروش شگفت انگیز</h5>
 
                     <div class="d-flex justify-content-between my-3">
-                        <a href="{{ route('admin.market.discount.amazingSale.create') }}" class="btn btn-sm btn-primary">افزودن کالا به فروش شگفت انگیز</a>
+                        <a href="{{ route('admin.market.discount.amazingSale.create') }}"
+                            class="btn btn-sm btn-primary">افزودن کالا به فروش شگفت انگیز</a>
                         <input type="text" class="form-control form-control-sm col-3" placeholder="جستجو">
                     </div>
                     <hr>
@@ -35,24 +36,35 @@
                                     <th>درصد تخفیف</th>
                                     <th>تاریخ شروع</th>
                                     <th>تاریخ پایان</th>
+                                    <th>وضعیت</th>
                                     <th class="col-2"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>آیفون 12</td>
-                                    <td>300 افغانی</td>
-                                    <td>اول ثور 1402</td>
-                                    <td>پنجم ثوز 1402</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
+                                @foreach ($amazingSales as $amazingSale)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $amazingSale->product->name }}</td>
+                                        <td>{{ $amazingSale->percentage }}</td>
+                                        <td>{{ JalaliDate($amazingSale->start_date) }}</td>
+                                        <td>{{ JalaliDate($amazingSale->end_date) }}</td>
+                                        <td>{{ $amazingSale->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.market.discount.amazingSale.edit', $amazingSale->id) }}"
+                                                class="btn btn-sm btn-warning"><i class="fa fa-edit mx-1"></i>ویرایش</a>
+                                            <form
+                                                action="{{ route('admin.market.discount.amazingSale.destroy', $amazingSale->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -62,4 +74,7 @@
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection
