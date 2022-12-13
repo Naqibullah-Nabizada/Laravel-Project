@@ -7,21 +7,68 @@ use App\Http\Requests\Admin\Market\AmazingSale\StoreAmazingSaleRequest;
 use App\Http\Requests\Admin\Market\AmazingSale\UpdateAmazingSaleRequest;
 use App\Http\Requests\Admin\Market\CommonDiscount\StoreCommonDiscountRequest;
 use App\Http\Requests\Admin\Market\CommonDiscount\UpdateCommonDiscountRequest;
+use App\Http\Requests\Admin\Market\Copan\StoreCopanRequest;
+use App\Http\Requests\Admin\Market\Copan\UpdateCopanRequest;
 use App\Models\Market\AmazingSale;
 use App\Models\Market\CommonDiscount;
+use App\Models\Market\Copan;
 use App\Models\Market\Product;
+use App\Models\User;
 use Monolog\Handler\AmqpHandler;
 
 class DiscountController extends Controller
 {
     public function copan()
     {
-        return view('admin.market.discount.copan.index');
+        $copans = Copan::orderBy('id', 'desc')->get();
+        return view('admin.market.discount.copan.index', compact('copans'));
     }
 
     public function copanCreate()
     {
-        return view('admin.market.discount.copan.create');
+        $users = User::all();
+        return view('admin.market.discount.copan.create', compact('users'));
+    }
+
+    public function copanStore(StoreCopanRequest $request)
+    {
+        $copans = $request->all();
+        //! fixed date
+        $realTimestampStart = substr($request->start_date, 0, 10);
+        $copans['start_date'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
+        $realTimestampStart = substr($request->end_date, 0, 10);
+        $copans['end_date'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+        Copan::create($copans);
+        return redirect()->route('admin.market.discount.copan')->with('swal-success', 'کوپن جدید با موفقیت ثبت شد');
+    }
+
+    public function copanEdit($id)
+    {
+        $copan = Copan::FindOrFail($id);
+        $users = User::all();
+        return view('admin.market.discount.copan.edit', compact('copan', 'users'));
+    }
+
+    public function copanUpdate(UpdateCopanRequest $request, $id)
+    {
+        $inputs = $request->all();
+        $copan = Copan::FindOrFail($id);
+        //! fixed date
+        $realTimestampStart = substr($request->start_date, 0, 10);
+        $inputs['start_date'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+
+        $realTimestampStart = substr($request->end_date, 0, 10);
+        $inputs['end_date'] = date('Y-m-d H:i:s', intval($realTimestampStart));
+        $copan->update($inputs);
+        return redirect()->route('admin.market.discount.copan')->with('swal-success', 'کوپن با موفقیت ویرایش شد');
+    }
+
+    public function copanDestroy($id)
+    {
+        $copan = Copan::FindOrFail($id);
+        $copan->delete($id);
+        return redirect()->route('admin.market.discount.copan')->with('swal-success', 'کوپن با موفقیت حذف شد');
     }
 
     // !========================================================================================================================================

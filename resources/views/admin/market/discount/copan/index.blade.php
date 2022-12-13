@@ -33,7 +33,9 @@
                                 <tr>
                                     <th>#</th>
                                     <th>کد کوپن</th>
+                                    <th>کاربر</th>
                                     <th>درصد تخفیف</th>
+                                    <th>نوع تخفیف</th>
                                     <th>سقف تخفیف</th>
                                     <th>نوع کوپن</th>
                                     <th>تاریخ شروع</th>
@@ -42,22 +44,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>ramazan</td>
-                                    <td>30%</td>
-                                    <td>300 افغانی</td>
-                                    <td>عمومی</td>
-                                    <td>اول ثور 1402</td>
-                                    <td>پنجم ثوز 1402</td>
-                                    <td class="text-left">
-                                        <a href="" class="btn btn-sm btn-warning"><i
-                                                class="fa fa-edit mx-1"></i>ویرایش</a>
-                                        <a href="" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash-alt mx-1"></i>حذف</a>
-                                    </td>
-                                </tr>
-
+                                @foreach ($copans as $copan)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $copan->code }}</td>
+                                        <td>{{ $copan->user->fullName ?? '-'}}</td>
+                                        <td>{{ $copan->amount }}</td>
+                                        <td>{{ $copan->amount_type === 0 ? 'فیصدی' : 'عددی' }}</td>
+                                        <td>{{ $copan->discount_ceiling }}</td>
+                                        <td>{{ $copan->type === 0 ? 'عمومی' : 'خصوصی' }}</td>
+                                        <td>{{ JalaliDate($copan->start_date) }}</td>
+                                        <td>{{ JalaliDate($copan->end_date) }}</td>
+                                        <td class="text-left">
+                                            <a href="{{ route('admin.market.discount.copan.edit', $copan->id) }}" class="btn btn-sm btn-warning"><i
+                                                    class="fa fa-edit mx-1"></i>ویرایش</a>
+                                                    <form
+                                                action="{{ route('admin.market.discount.copan.destroy', $copan->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger delete">
+                                                    <i class="fa fa-trash mx-1"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </section>
@@ -67,4 +80,7 @@
             </section>
         </section>
     </section>
+@endsection
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

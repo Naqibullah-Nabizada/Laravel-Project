@@ -209,5 +209,6 @@ return [
         'minimal_order_amount'  => 'حداقل مبلغ خرید',
         'start_date'            => 'تاریخ شروع',
         'end_date'              => 'تاریخ پایان',
+        'user_id'               => 'کاربر',
     ],
 ];

@@ -66,8 +66,16 @@ Route::prefix('admin')->group(function () {
         Route::resource('/delivery', DeliveryController::class);
 
         Route::prefix('discount')->group(function () {
-            Route::get('/copan', [DiscountController::class, 'copan'])->name('admin.market.discount.copan');
-            Route::get('/copan/create', [DiscountController::class, 'copanCreate'])->name('admin.market.discount.copan.create');
+
+            Route::prefix('copan')->group(function () {
+                Route::get('/', [DiscountController::class, 'copan'])->name('admin.market.discount.copan');
+                Route::get('/create', [DiscountController::class, 'copanCreate'])->name('admin.market.discount.copan.create');
+                Route::post('/store', [DiscountController::class, 'copanStore'])->name('admin.market.discount.copan.store');
+                Route::get('/edit/{id}', [DiscountController::class, 'copanEdit'])->name('admin.market.discount.copan.edit');
+                Route::put('/update/{id}', [DiscountController::class, 'copanUpdate'])->name('admin.market.discount.copan.update');
+                Route::delete('/destroy/{id}', [DiscountController::class, 'copanDestroy'])->name('admin.market.discount.copan.destroy');
+            });
+
 
             Route::prefix('common-discount')->group(function () {
 
