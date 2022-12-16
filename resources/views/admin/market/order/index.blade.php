@@ -31,9 +31,13 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>سفارش کننده</th>
                                     <th>کد سفارش</th>
-                                    <th>مبلغ سفارش</th>
-                                    <th>مبلغ تخفیف</th>
+                                    <th>مجموع مبلغ سفارش
+                                        {بدون تخفیف}
+                                    </th>
+                                    <th>مجموع تخفیفات</th>
+                                    <th>تخفیف همه محصولات</th>
                                     <th>مبلغ نهایی</th>
                                     <th>وضعیت پرداخت</th>
                                     <th>شیوه پرداخت</th>
@@ -41,40 +45,37 @@
                                     <th>وضعیت ارسال</th>
                                     <th>شیوه ارسال</th>
                                     <th>وضعیت سفارش</th>
-                                    <th><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
+                                    <th><i class="fa fa-cogs mx-1"></i>تنظیمات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>94334</td>
-                                    <td>2999 افغانی</td>
-                                    <td>300</td>
-                                    <td>2699</td>
-                                    <td>پرداخت شده</td>
-                                    <td>آفلاین</td>
-                                    <td>ملت</td>
-                                    <td>ارسال شده</td>
-                                    <td>پیک موتوری</td>
-                                    <td>ارسال شده</td>
-                                    <td>
-                                        <div class="dropdown">
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $order->user->fullName }}</td>
+                                        <td>{{ $order->id }}</td>
+                                        <td>{{ $order->order_final_amount }} افغانی</td>
+                                        <td>{{ $order->order_discount_amount }} افغانی</td>
+                                        <td>{{ $order->order_total_products_discount_amount }} افغانی</td>
+                                        <td>{{ $order->order_final_amount - $order->order_discount_amount }}</td>
+                                        <td>{{ $order->payment_status_value }}</td>
+                                        <td>{{ $order->payment_type_value }}</td>
+                                        <td>{{ $order->payment->paymentable->gateway ?? '-' }}</td>
+                                        <td>{{ $order->delivery_status_value }}</td>
+                                        <td>{{ $order->delivery->name }}</td>
+                                        <td>{{ $order->order_status_value }}</td>
 
-                                            <a href="#" class="btn btn-sm btn-success dropdown-toggle"
-                                                data-toggle="dropdown">
-                                                <i class="fa fa-tools mx-1"></i>عملیات
-                                            </a>
-                                            <div class="dropdown-menu">
-                                                <a href="#" class="dropdown-item text-right"><i class="fa fa-images"></i>مشاهده فاکتور</a>
-                                                <a href="#" class="dropdown-item text-right"><i class="fa fa-list-ul"></i>تغییر وضعیت ارسال</a>
-                                                <a href="#" class="dropdown-item text-right"><i class="fa fa-edit"></i>تغییر وضعیت سفارش</a>
-                                                <a href="#" class="dropdown-item text-right"><i class="fa fa-window-close"></i>باطل کردن سفارش</a>
+                                        <td class="text-center">
+                                                <a href="{{ route('admin.market.order.show', $order->id) }}" class="btn btn-sm btn-primary">مشاهده فاکتور</a>
+                                                <a href="{{ route('admin.market.order.changeSendStatus', $order->id) }}" class="btn btn-sm btn-warning">تغییر وضعیت ارسال</a>
+                                                <a href="{{ route('admin.market.order.changeOrderStatus', $order->id) }}" class="btn btn-sm btn-secondary"> وضعیت سفارش</a>
+                                                <a href="{{ route('admin.market.order.cancelOrder', $order->id) }}" class="btn btn-sm btn-danger">باطل کردن سفارش</a>
                                             </div>
+                                        </td>
 
-                                        </div>
-                                    </td>
+                                    </tr>
+                                @endforeach
 
-                                </tr>
                             </tbody>
                         </table>
                     </section>
