@@ -50,10 +50,6 @@ use Illuminate\Support\Facades\Route;
 
 // Admin
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::prefix('admin')->group(function () {
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
@@ -292,6 +288,11 @@ Route::prefix('admin')->group(function () {
     Route::post('notification/read-all', [NotificationController::class, 'readAll'])->name('admin.notification.read-all');
 });
 
+//! Home
+
+Route::get('/', function () {
+    return view('customer.home');
+})->name('home');
 
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
