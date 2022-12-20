@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
+use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Models\Notification;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Route;
@@ -288,11 +289,23 @@ Route::prefix('admin')->group(function () {
     Route::post('notification/read-all', [NotificationController::class, 'readAll'])->name('admin.notification.read-all');
 });
 
+
+
+//! Auth
+Route::get('/login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('login-register-form');
+Route::middleware('throttle:customer-login-register-limiter')->post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('login-register');
+Route::get('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfrimForm'])->name('login-confirm-form');
+Route::middleware('throttle:customer-confirm-register-limiter')->post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('login-confirm');
+Route::get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('login-resend-otp');
+Route::middleware('throttle:customer-login-resend-otp-limiter')->get('/logout', [LoginRegisterController::class, 'logout'])->name('auth.logout');
+
+
+
 //! Home
 
 Route::get('/', function () {
     return view('customer.home');
-})->name('home');
+})->name('customer.home');
 
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

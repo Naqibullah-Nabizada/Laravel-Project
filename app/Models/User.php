@@ -36,6 +36,7 @@ class User extends Authenticatable
         'user_type',
         'profile_photo_path',
         'activation',
+        'email_verified_at',
     ];
 
     /**
