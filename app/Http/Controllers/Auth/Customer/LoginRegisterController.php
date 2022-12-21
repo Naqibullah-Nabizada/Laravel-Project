@@ -87,7 +87,7 @@ class LoginRegisterController extends Controller
             return redirect()->route('login-confirm-form', $token);
         } catch (Exception $e) {
             return redirect()->route('login-register-form')
-            ->withErrors(['otp' => 'انترنت خود را بررسی کنید']);
+            ->withErrors(['id' => 'انترنت خود را بررسی کنید']);
         }
     }
 

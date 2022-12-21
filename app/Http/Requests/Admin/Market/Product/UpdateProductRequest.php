@@ -24,8 +24,8 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
-            'tags' => 'required|min:3|max:100|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
+            'name' => 'required|min:3|max:200|regex:/^[ا-یa-zA-z0-9\آ ئ\/-]+$/u',
+            'tags' => 'required|min:3|max:100|regex:/^[ا-یa-zA-z0-9\ئ آ><\/,.;\n\r,$&?؟* ]+$/u',
             'category_id' => 'required|exists:product_categories,id',
             'brand_id' => 'required|exists:brands,id',
             'image' => 'image|mimes:png,jpg,jpeg',
@@ -37,7 +37,7 @@ class UpdateProductRequest extends FormRequest
             'height' => 'required|numeric',
             'length' => 'required|numeric',
             'weight' => 'required|numeric',
-            'introduction' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\آ><\/,.;\n\r,$&?؟* ]+$/u',
+            'introduction' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\-\آ ئ><\/,.;\n\r,$&?؟* ]+$/u',
             'meta_key.*' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
             'meta_value.*' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
         ];

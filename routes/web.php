@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Content\BannerController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\FAQController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\GallaryController;
+use App\Http\Controllers\Admin\Market\GuaranteeController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
@@ -34,6 +36,7 @@ use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
+use App\Http\Controllers\Customer\HomeController;
 use App\Models\Notification;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Route;
@@ -142,6 +145,17 @@ Route::prefix('admin')->group(function () {
                 Route::post('/store/{id}', [GallaryController::class, 'store'])->name('product.gallary.store');
                 Route::delete('/destroy/{id}/{product}', [GallaryController::class, 'destroy'])->name('product.gallary.destroy');
             });
+
+
+            //! Product Guarantee
+            Route::prefix('guarantee')->group(function () {
+                Route::get('/{id}', [GuaranteeController::class, 'index'])->name('product.guarantee.index');
+                Route::get('/create/{id}', [GuaranteeController::class, 'create'])->name('product.guarantee.create');
+                Route::post('/store/{id}', [GuaranteeController::class, 'store'])->name('product.guarantee.store');
+                Route::get('/edit/{id}/{product}', [GuaranteeController::class, 'edit'])->name('product.guarantee.edit');
+                Route::put('/update/{id}/{product}', [GuaranteeController::class, 'update'])->name('product.guarantee.update');
+                Route::delete('/destroy/{id}/{product}', [GuaranteeController::class, 'destroy'])->name('product.guarantee.destroy');
+            });
         });
 
 
@@ -213,6 +227,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/menu', MenuController::class);
         Route::resource('/page', PageController::class);
         Route::resource('/post', PostController::class);
+        Route::resource('/banner', BannerController::class);
     });
 
 
@@ -303,9 +318,7 @@ Route::middleware('throttle:customer-login-resend-otp-limiter')->get('/logout', 
 
 //! Home
 
-Route::get('/', function () {
-    return view('customer.home');
-})->name('customer.home');
+Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\ProductColor\StoreProductColorRequest;
-use App\Http\Requests\Admin\Market\ProductColor\UpdateProductColorRequest;
+use App\Http\Requests\Admin\Market\Guarantee\StoreGuaranteeRequest;
+use App\Http\Requests\Admin\Market\Guarantee\UpdateGuaranteeRequest;
+use App\Models\Market\Guarantee;
 use App\Models\Market\Product;
-use App\Models\Market\ProductColor;
 
-class ProductColorController extends Controller
+class GuaranteeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,8 @@ class ProductColorController extends Controller
     public function index($id)
     {
         $product = Product::FindOrFail($id);
-        $colors = ProductColor::where('product_id', $id)->orderBy('id', 'desc')->get();
-        return view('admin.market.product.color.index', compact('product', 'colors'));
+        $guarantees = Guarantee::orderBy('id', 'desc')->where('product_id', $id)->get();
+        return view('admin.market.product.guarantee.index', compact('product', 'guarantees'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ProductColorController extends Controller
     public function create($id)
     {
         $product = Product::FindOrFail($id);
-        return view('admin.market.product.color.create', compact('product'));
+        return view('admin.market.product.guarantee.create', compact('product'));
     }
 
     /**
@@ -39,14 +39,14 @@ class ProductColorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductColorRequest $request, $id)
+    public function store(StoreGuaranteeRequest $request, $id)
     {
         $product = Product::FindOrFail($id);
-
         $inputs = $request->all();
         $inputs['product_id'] = $product->id;
-        ProductColor::create($inputs);
-        return redirect()->route('product.color.index', $product->id)->with('swal-success', 'رنگ محصول با موفقیت ثیت شد');
+        Guarantee::create($inputs);
+        return redirect()->route('product.guarantee.index', $product->id)->with('swal-success', 'گرانتی با موفقیت اضافه شد');
+
     }
 
     /**
@@ -68,8 +68,8 @@ class ProductColorController extends Controller
      */
     public function edit($id, Product $product)
     {
-        $color = ProductColor::FindOrFail($id);
-        return view('admin.market.product.color.edit', compact('color', 'product'));
+        $guarantee = Guarantee::FindOrFail($id);
+        return view('admin.market.product.guarantee.edit', compact('product', 'guarantee'));
     }
 
     /**
@@ -79,12 +79,12 @@ class ProductColorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductColorRequest $request, $id, Product $product)
+    public function update(UpdateGuaranteeRequest $request, $id, Product $product)
     {
-        $color = ProductColor::FindOrFail($id);
-        $color->update($request->all());
+            $guarantee = Guarantee::FindOrFail($id);
+            $guarantee->update($request->all());
 
-        return redirect()->route('product.color.index', $product)->with('swal-success', 'رنگ محصول با موفقیت ویرایش شد');
+            return redirect()->route('product.guarantee.index', $product)->with('swal-success', 'گرانتی محصول با موفقیت ویرایش شد');
     }
 
     /**
@@ -95,8 +95,8 @@ class ProductColorController extends Controller
      */
     public function destroy($id, Product $product)
     {
-        $color = ProductColor::FindOrFail($id);
-        $color->destroy($id);
-        return redirect()->route('product.color.index', $product)->with('swal-success', 'رنگ محصول با موفقیت حذف شد');
+        $guarantee = Guarantee::FindOrFail($id);
+        $guarantee->destroy($id);
+        return redirect()->route('product.guarantee.index', $product)->with('swal-success', 'گرانتی محصول با موفقیت حذف شد');
     }
 }

@@ -51,7 +51,7 @@
                                         <td>{{ $comment->author_id }}</td>
                                         <td>{{ $comment->user->fullName }}</td>
                                         <td>{{ $comment->commentable_id }}</td>
-                                        <td>{{ $comment->commentable->name }}</td>
+                                        <td>{{ $comment->commentable->name ?? '-' }}</td>
                                         <td>
                                             <a href="{{ route('product.comment.status', $comment->id) }}">
                                                 @if ($comment->status == 0)

@@ -100,6 +100,10 @@
                 <i class="fas fa-bars"></i>
                 <span>پیج ساز</span>
             </a>
+            <a href="{{ route('banner.index') }}" class="sidebar-link">
+                <i class="fas fa-bars"></i>
+                <span>بنر ها</span>
+            </a>
 
 
 

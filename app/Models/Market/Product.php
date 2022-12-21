@@ -60,4 +60,8 @@ class Product extends Model
     public function amazingSales(){
         return $this->hasMany(AmazingSale::class);
     }
+
+    public function guarantee(){
+        return $this->hasMany(Guarantee::class);
+    }
 }
