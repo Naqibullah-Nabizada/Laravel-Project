@@ -8,23 +8,22 @@
                 <section id="slideshow" class="owl-carousel owl-theme">
 
                     @foreach ($slideShowImages as $slideShowImage)
-                    <section class="item">
-                        <a class="w-100 d-block h-auto text-decoration-none" href="#">
-                            <img class="w-100 rounded-2 d-block h-auto" src="{{ asset($slideShowImage->image) }}">
-                        </a>
-                    </section>
+                        <section class="item">
+                            <a class="w-100 d-block h-auto text-decoration-none" href="#">
+                                <img class="w-100 rounded-2 d-block h-auto" src="{{ asset($slideShowImage->image) }}">
+                            </a>
+                        </section>
                     @endforeach
 
                 </section>
             </section>
             <section class="col-md-4 ps-md-1 mt-2 mt-md-0">
                 @foreach ($topBanners as $topBanner)
-
-                <section class="mb-2">
-                    <a href="#" class="d-block">
-                        <img class="w-100 rounded-2" src="{{ asset($topBanner->image) }}">
-                    </a>
-                </section>
+                    <section class="mb-2">
+                        <a href="#" class="d-block">
+                            <img class="w-100 rounded-2" src="{{ asset($topBanner->image) }}">
+                        </a>
+                    </section>
                 @endforeach
 
             </section>
@@ -56,46 +55,48 @@
                             <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                                 @foreach ($mostVisitedProducts as $mostVisitedProduct)
-
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                    data-bs-placement="left" title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a>
+                                    <section class="item">
+                                        <section class="lazyload-item-wrapper">
+                                            <section class="product">
+                                                <section class="product-add-to-cart"><a href="#"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a>
+                                                </section>
+                                                <section class="product-add-to-favorite"><a href="#"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a>
+                                                </section>
+                                                <a class="product-link" href="#">
+                                                    <section class="product-image">
+                                                        <img class=""
+                                                            src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}">
+                                                    </section>
+                                                    <section class="product-colors"></section>
+                                                    <section class="product-name">
+                                                        <h3>{{ Str::limit($mostVisitedProduct->name, 60) }}</h3>
+                                                    </section>
+                                                    <section class="product-price-wrapper">
+                                                        <section class="product-discount">
+                                                            <span class="product-old-price">6,895,000 </span>
+                                                            <span class="product-discount-amount">10%</span>
+                                                        </section>
+                                                        <section class="product-price fw-bold">
+                                                            {{ priceFormat($mostVisitedProduct->price) }} دالر</section>
+                                                    </section>
+                                                    <section class="product-colors">
+                                                        <section class="product-colors-item"
+                                                            style="background-color: white;">
+                                                        </section>
+                                                        <section class="product-colors-item"
+                                                            style="background-color: blue;">
+                                                        </section>
+                                                        <section class="product-colors-item" style="background-color: red;">
+                                                        </section>
+                                                    </section>
+                                                </a>
                                             </section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                    title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a>
-                                            </section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class=""
-                                                        src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name">
-                                                    <h3>{{ Str::limit($mostVisitedProduct->name, 60) }}</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-discount">
-                                                        <span class="product-old-price">6,895,000 </span>
-                                                        <span class="product-discount-amount">10%</span>
-                                                    </section>
-                                                    <section class="product-price fw-bold">{{ priceFormat($mostVisitedProduct->price) }} دالر</section>
-                                                </section>
-                                                <section class="product-colors">
-                                                    <section class="product-colors-item" style="background-color: white;">
-                                                    </section>
-                                                    <section class="product-colors-item" style="background-color: blue;">
-                                                    </section>
-                                                    <section class="product-colors-item" style="background-color: red;">
-                                                    </section>
-                                                </section>
-                                            </a>
                                         </section>
                                     </section>
-                                </section>
                                 @endforeach
 
 
@@ -149,46 +150,49 @@
                             <section class="lazyload light-owl-nav owl-carousel owl-theme">
 
                                 @foreach ($offerProducts as $offerProduct)
-
-                                <section class="item">
-                                    <section class="lazyload-item-wrapper">
-                                        <section class="product">
-                                            <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip"
-                                                    data-bs-placement="left" title="افزودن به سبد خرید"><i
-                                                        class="fa fa-cart-plus"></i></a>
+                                    <section class="item">
+                                        <section class="lazyload-item-wrapper">
+                                            <section class="product">
+                                                <section class="product-add-to-cart"><a href="#"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a>
+                                                </section>
+                                                <section class="product-add-to-favorite"><a href="#"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a>
+                                                </section>
+                                                <a class="product-link" href="#">
+                                                    <section class="product-image">
+                                                        <img class=""
+                                                            src="{{ asset($offerProduct->image['indexArray']['medium']) }}">
+                                                    </section>
+                                                    <section class="product-colors"></section>
+                                                    <section class="product-name">
+                                                        <h3>{{ Str::limit($offerProduct->name, 60) }}</h3>
+                                                    </section>
+                                                    <section class="product-price-wrapper">
+                                                        <section class="product-discount">
+                                                            <span class="product-old-price">6,895,000 </span>
+                                                            <span class="product-discount-amount">10%</span>
+                                                        </section>
+                                                        <section class="product-price fw-bold">
+                                                            {{ priceFormat($offerProduct->price) }} دالر</section>
+                                                    </section>
+                                                    <section class="product-colors">
+                                                        <section class="product-colors-item"
+                                                            style="background-color: white;">
+                                                        </section>
+                                                        <section class="product-colors-item"
+                                                            style="background-color: blue;">
+                                                        </section>
+                                                        <section class="product-colors-item"
+                                                            style="background-color: red;">
+                                                        </section>
+                                                    </section>
+                                                </a>
                                             </section>
-                                            <section class="product-add-to-favorite"><a href="#"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                    title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a>
-                                            </section>
-                                            <a class="product-link" href="#">
-                                                <section class="product-image">
-                                                    <img class=""
-                                                        src="{{ asset($offerProduct->image['indexArray']['medium']) }}">
-                                                </section>
-                                                <section class="product-colors"></section>
-                                                <section class="product-name">
-                                                    <h3>{{ Str::limit($offerProduct->name, 60) }}</h3>
-                                                </section>
-                                                <section class="product-price-wrapper">
-                                                    <section class="product-discount">
-                                                        <span class="product-old-price">6,895,000 </span>
-                                                        <span class="product-discount-amount">10%</span>
-                                                    </section>
-                                                    <section class="product-price fw-bold">{{ priceFormat($offerProduct->price) }} دالر</section>
-                                                </section>
-                                                <section class="product-colors">
-                                                    <section class="product-colors-item" style="background-color: white;">
-                                                    </section>
-                                                    <section class="product-colors-item" style="background-color: blue;">
-                                                    </section>
-                                                    <section class="product-colors-item" style="background-color: red;">
-                                                    </section>
-                                                </section>
-                                            </a>
                                         </section>
                                     </section>
-                                </section>
                                 @endforeach
 
                             </section>
@@ -233,11 +237,11 @@
                     <section class="brands-wrapper py-4">
                         <section class="brands dark-owl-nav owl-carousel owl-theme">
                             @foreach ($brands as $brand)
-                            <section class="item">
-                                <section class="brand-item">
-                                    <a href="#"><img class="rounded-2" src="{{ asset($brand->logo) }}"></a>
+                                <section class="item">
+                                    <section class="brand-item">
+                                        <a href="#"><img class="rounded-2" src="{{ asset($brand->logo) }}"></a>
+                                    </section>
                                 </section>
-                            </section>
                             @endforeach
                         </section>
                     </section>
