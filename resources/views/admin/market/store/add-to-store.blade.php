@@ -34,7 +34,7 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">نام تحویل گیرنده</label>
                                     <input type="text" name="receiver" class="form-control form-control-sm"
-                                        placeholder="نام تحویل گیرنده" value="{{ old('reciver') }}">
+                                        placeholder="نام تحویل گیرنده" value="{{ old('receiver') }}">
                                     @error('receiver')
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror

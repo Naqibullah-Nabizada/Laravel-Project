@@ -26,7 +26,7 @@ class AddToStoreRequest extends FormRequest
         return [
             'receiver' => 'required|min:3|max:40|regex:/^[ا-یa-zA-z0-9\آء ]+$/u',
             'deliverer' => 'required|min:3|max:40|regex:/^[ا-یa-zA-z0-9\آء ]+$/u',
-            'description' => 'required|min:3|max:40|regex:/^[ا-یa-zA-z0-9\ءآ ]+$/u',
+            'description' => 'required|min:3|max:2000|regex:/^[ا-یa-zA-z0-9\ءآ ]+$/u',
             'marketable_number' => 'required|regex:/^[0-9]+$/u',
         ];
     }

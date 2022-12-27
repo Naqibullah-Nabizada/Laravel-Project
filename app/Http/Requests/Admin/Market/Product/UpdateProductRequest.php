@@ -37,7 +37,7 @@ class UpdateProductRequest extends FormRequest
             'height' => 'required|numeric',
             'length' => 'required|numeric',
             'weight' => 'required|numeric',
-            'introduction' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\-\آ ئ><\/,.;\n\r,$&?؟* ]+$/u',
+            'introduction' => 'required|min:3|regex:/^[ا-یa-zA-z0-9\-\آ ئ><\/,،.;\n\r,$&?؟:!+=-»«"()* ]+$/u',
             'meta_key.*' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
             'meta_value.*' => 'required|min:3|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
         ];

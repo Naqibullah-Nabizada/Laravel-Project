@@ -38,6 +38,7 @@
                                     <th>تصویر محصول</th>
                                     <th>دسته</th>
                                     <th>رنگ</th>
+                                    <th>کد رنگ</th>
                                     <th>افزایش قیمت</th>
                                     <th>وضعیت</th>
                                     <th class="col-2 text-center"><i class="fa fa-cogs mx-2"></i>تنظیمات</th>
@@ -55,6 +56,7 @@
                                         </td>
                                         <td>{{ $color->product->category->name }}</td>
                                         <td>{{ $color->color_name }}</td>
+                                        <td>{{ $color->color }}</td>
                                         <td>{{ $color->price_increase }}</td>
                                         <td>{{ $color->status === 0 ? 'غیر فعال' : 'فعال' }}</td>
                                         <td class="text-center">

@@ -6,7 +6,9 @@
             @csrf
             <section class="login-wrapper mb-5">
                 <section class="login-logo">
-                    <img src="{{ asset('customer-assets/images/logo/4.png') }}">
+                    <a href="{{ route('customer.home') }}">
+                        <img src="{{ asset('customer-assets/images/logo/4.png') }}">
+                    </a>
                 </section>
                 <section class="login-title">ورود / ثبت نام</section>
                 <section class="login-info">ایمیل خود را وارد کنید</section>

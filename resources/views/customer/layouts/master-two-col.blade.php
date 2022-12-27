@@ -24,6 +24,14 @@
 
     @include('customer.layouts.script')
     @yield('script')
+
+    <div class="toast-wrapper flex-row-reverse">
+        @include('admin.alerts.toast.success')
+        @include('admin.alerts.toast.error')
+    </div>
+
+    @include('admin.alerts.sweetalert.success')
+    @include('admin.alerts.sweetalert.error')
 </body>
 
 </html>

@@ -42,6 +42,15 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-6">
+                                    <label class="form-label">کد رنگ</label>
+                                    <input type="color" name="color" class="form-control form-control-sm"
+                                        value="{{ old('color') }}">
+                                    @error('color')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-12 col-md-6">
                                     <label class="form-label">افزایش قیمت</label>
                                     <input type="text" name="price_increase" class="form-control form-control-sm"
                                         placeholder="افزایش قیمت" value="{{ old('price_increase') }}">

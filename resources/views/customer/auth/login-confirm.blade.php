@@ -7,7 +7,9 @@
             @csrf
             <section class="login-wrapper mb-5">
                 <section class="login-logo">
-                    <img src="{{ asset('customer-assets/images/logo/4.png') }}">
+                    <a href="{{ route('customer.home') }}">
+                        <img src="{{ asset('customer-assets/images/logo/4.png') }}">
+                    </a>
                 </section>
                 <section class="login-title">
                     <a href="{{ route('login-register-form') }}" class="btn btn-sm btn-primary">
@@ -31,7 +33,8 @@
                 </section>
 
                 <section id="resend-otp" class="d-none">
-                    <a href="{{ route('login-resend-otp', $token) }}" class="text-decoration-none text-primary">دریافت مجدد کد تائید</a>
+                    <a href="{{ route('login-resend-otp', $token) }}" class="text-decoration-none text-primary">دریافت مجدد
+                        کد تائید</a>
                 </section>
 
                 <section id="timer" class="text-center">
@@ -45,9 +48,7 @@
 
 @section('script')
     @php
-        $timer = ((new \Carbon\Carbon($OTP->created_at))
-        ->addMinutes(5)->timestamp - \Carbon\Carbon::now()->timestamp)
-        * 1000;
+        $timer = ((new \Carbon\Carbon($OTP->created_at))->addMinutes(5)->timestamp - \Carbon\Carbon::now()->timestamp) * 1000;
     @endphp
 
     <script>

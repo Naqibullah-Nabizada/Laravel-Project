@@ -19,6 +19,6 @@ class CategoryValue extends Model
 
     public function attribute()
     {
-        return $this->belongsTo(CategoryAttribute::class);
+        return $this->belongsTo(CategoryAttribute::class, 'category_attribute_id');
     }
 }

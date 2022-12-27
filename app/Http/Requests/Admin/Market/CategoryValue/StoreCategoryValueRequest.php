@@ -24,7 +24,7 @@ class StoreCategoryValueRequest extends FormRequest
     public function rules()
     {
         return [
-            'value' => 'required|min:1|max:20|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
+            'value' => 'required|min:1|max:50|regex:/^[ا-یa-zA-z0-9\آ. ]+$/u',
             'price_increase' => 'required|numeric',
             'type' => 'required|regex:/^[ا-یa-zA-z0-9\آ ]+$/u',
             'product_id' => 'required|exists:products,id',

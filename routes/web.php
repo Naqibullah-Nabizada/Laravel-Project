@@ -37,8 +37,7 @@ use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
-use App\Models\Notification;
-use Illuminate\Mail\Mailables\Content;
+use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -320,6 +319,9 @@ Route::middleware('throttle:customer-login-resend-otp-limiter')->get('/logout', 
 
 Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 
+Route::get('/product/{id}', [MarketProductController::class, 'product'])->name('customer.market.product');
+Route::post('/addComment/product/{id}', [MarketProductController::class,'addComment'])->name('customer.market.product.addComment');
+Route::get('/add-to-favorite/product/{id}', [MarketProductController::class,'addToFavorite'])->name('customer.market.product.addToFavorite');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
