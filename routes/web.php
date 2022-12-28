@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
 use App\Http\Controllers\Admin\Content\PostController;
+use App\Http\Controllers\Admin\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\CommentController;
@@ -38,6 +39,9 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
+use App\Http\Controllers\Customer\SalesProcess\AddressController as SalesProcessAddressController;
+use App\Http\Controllers\Customer\SalesProcess\CartController;
+use App\Http\Controllers\Customer\SalesProcess\ProfileCompletionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -320,8 +324,30 @@ Route::middleware('throttle:customer-login-resend-otp-limiter')->get('/logout', 
 Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 
 Route::get('/product/{id}', [MarketProductController::class, 'product'])->name('customer.market.product');
-Route::post('/addComment/product/{id}', [MarketProductController::class,'addComment'])->name('customer.market.product.addComment');
-Route::get('/add-to-favorite/product/{id}', [MarketProductController::class,'addToFavorite'])->name('customer.market.product.addToFavorite');
+Route::post('/addComment/product/{id}', [MarketProductController::class, 'addComment'])->name('customer.market.product.addComment');
+Route::get('/add-to-favorite/product/{id}', [MarketProductController::class, 'addToFavorite'])->name('customer.market.product.addToFavorite');
+
+
+//! Sales Process
+
+//Cart
+Route::get('/cart', [CartController::class, 'cart'])->name('customer.sales-porcess.cart');
+Route::post('/cart', [CartController::class, 'updateCart'])->name('customer.sales-porcess.updateCart');
+Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('customer.sales-porcess.add-to-cart');
+Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customer.sales-porcess.remove-from-cart');
+
+
+//Address
+Route::get('/address-and-delivery', [SalesProcessAddressController::class, 'addressAndDelivery'])->name('customer.sales-porcess.address-and-delivery');
+Route::post('/add-address', [SalesProcessAddressController::class, 'addAddress'])->name('customer.sales-porcess.add-address');
+
+
+//profile completion
+Route::get('/profile-completion', [ProfileCompletionController::class, 'profileCompletion'])->name('customer.sales-porcess.profile-completion');
+Route::post('/profile-completion', [ProfileCompletionController::class, 'update'])->name('customer.sales-process.profile-completion-update');
+
+
+
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {

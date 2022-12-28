@@ -1,10 +1,7 @@
 @if (session('alert-section-success'))
-    <div class="alert alert-success alert-dismissible show fade">
-            <h4 class="alert-heading">موفقیت!</h4>
-            <hr>
-            <p>{{ session('alert-section-success') }}</p>
-            <button type="button" class="close" data-dismiss="close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <div class="alert alert-success alert-dismissible w-25 mr-0">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <p>{{ session('alert-section-success') }}</p>
+
     </div>
 @endif

@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function product($id)
     {
-        Auth::loginUsingId(1);
+        Auth::loginUsingId(20);
         $product = Product::FindOrFail($id);
         $relatedProducts = Product::orderBy('id', 'desc')->get();
         return view('customer.market.product.product', compact('relatedProducts', 'product'));
@@ -26,7 +26,7 @@ class ProductController extends Controller
         $inputs['commentable_id'] = $product->id;
         $inputs['commentable_type'] = Product::class;
         Comment::create($inputs);
-        return redirect()->route('customer.market.product', $product->id)->with('swal-success', 'دیدگاه شما ثبت شد');
+        return back()->with('toast-success', 'دیدگاه شما موفقانه ثبت شد');
     }
 
 
@@ -34,15 +34,15 @@ class ProductController extends Controller
     {
         $product = Product::FindOrFail($id);
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $product->user()->toggle([Auth::user()->id]);
 
-            if($product->user->contains(Auth::user()->id)){
+            if ($product->user->contains(Auth::user()->id)) {
                 return response()->json(['status' => 1]);
-            }else{
+            } else {
                 return response()->json(['status' => 2]);
             }
-        }else{
+        } else {
             return response()->json(['status' => 3]);
         }
     }

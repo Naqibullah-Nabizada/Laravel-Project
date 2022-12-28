@@ -14,6 +14,11 @@
         @include('customer.layouts.sidebar')
     </aside>
 
+
+    @include('admin.alerts.toast.success')
+    @include('admin.alerts.alert-section.success')
+    @include('admin.alerts.sweetalert.success')
+
     <main id="main-body-one-col" class="main-body">
 
         @yield('content')
@@ -25,13 +30,6 @@
     @include('customer.layouts.script')
     @yield('script')
 
-    <div class="toast-wrapper flex-row-reverse">
-        @include('admin.alerts.toast.success')
-        @include('admin.alerts.toast.error')
-    </div>
-
-    @include('admin.alerts.sweetalert.success')
-    @include('admin.alerts.sweetalert.error')
 </body>
 
 </html>
