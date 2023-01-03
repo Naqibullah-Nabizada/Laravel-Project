@@ -14,7 +14,7 @@
                     <!-- start vontent header -->
                     <section class="content-header">
                         <section class="d-flex justify-content-between align-items-center">
-                            <h2 class="content-header-title">
+                            <h2 class="content-header-title col-11 mx-auto">
                                 <span>تکمیل اطلاعات ارسال کالا (آدرس گیرنده، مشخصات گیرنده، نحوه ارسال) </span>
                             </h2>
                             <section class="content-header-link">
@@ -28,7 +28,7 @@
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
 
                                 <!-- start vontent header -->
-                                <section class="content-header mb-3">
+                                <section class="content-header mb-3 col-11 mx-auto">
                                     <section class="d-flex justify-content-between align-items-center">
                                         <h2 class="content-header-title content-header-title-small">
                                             انتخاب آدرس و مشخصات گیرنده
@@ -39,7 +39,8 @@
                                     </section>
                                 </section>
 
-                                <section class="address-alert alert alert-primary d-flex align-items-center p-2"
+                                <section
+                                    class="address-alert alert alert-primary d-flex align-items-center p-2 col-11 mx-auto"
                                     role="alert">
                                     <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
                                     <section>
@@ -47,254 +48,208 @@
                                     </section>
                                 </section>
 
+                                <section class="address-add-wrapper col-11 mx-auto">
 
-                                <section class="address-select">
 
-                                    <input type="radio" name="address" value="1" id="a1" />
-                                    <!--checked="checked"-->
-                                        <label for="a1" class="address-wrapper mb-2 p-2">
-                                            <section class="mb-2">
-                                                <i class="fa fa-map-marker-alt mx-1"></i>
-                                                آدرس : استان تهران، شهر تهران، تهران، خ. حافظ، پایینتر از تقاطع امام
-                                                خمینی، بن. هشمی، پلاک 3، واحد 4
+                                </section>
+
+                                <hr>
+
+                                <section class="address-select col-11 mx-auto">
+                                    <section>
+                                        <p class="alert alert-primary p-1"><i class="fa fa-plus mx-2 text-dark"></i>ایجاد
+                                            آدرس</p>
+                                    </section>
+                                    <section>
+                                        <form class="row" action="{{ route('customer.sales-porcess.add-address') }}"
+                                            method="POST">
+                                            @csrf
+                                            <section class="col-6 mb-2">
+                                                <label for="province" class="form-label mb-1">ولایت</label>
+                                                <select name="province_id" class="form-select form-select-sm"
+                                                    id="province">
+                                                    <option selected>ولایت را انتخاب کنید</option>
+                                                    @foreach ($provinces as $province)
+                                                        <option {{-- {{ $address->province_id == $province->id ? 'selected' : '' }} --}}
+                                                            data-url="{{ route('customer.sales-porcess.get-cities', $province->id) }}"
+                                                            value="{{ $province->id }}">
+                                                            {{ $province->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('province_id')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <section class="mb-2">
-                                                <i class="fa fa-user-tag mx-1"></i>
-                                                گیرنده : کامران محمدی
+
+                                            <section class="col-6 mb-2">
+                                                <label for="city" class="form-label mb-1">شهر</label>
+                                                <select name="city_id" class="form-select form-select-sm" id="city">
+                                                    <option selected>شهر را انتخاب کنید</option>
+                                                </select>
+                                                @error('city_id')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <section class="mb-2">
-                                                <i class="fa fa-mobile-alt mx-1"></i>
-                                                موبایل گیرنده : 09129998877
+                                            <section class="col-12 mb-2">
+                                                <label for="address" class="form-label mb-1">نشانی</label>
+                                                <input name="address" type="text" class="form-control form-control-sm"
+                                                    id="address" placeholder="نشانی" value="{{ old('address') }}">
+                                                @error('address')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <a class="" href="#"><i class="fa fa-edit"></i> ویرایش آدرس</a>
-                                            <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
-                                        </label>
 
-                                        <input type="radio" name="address" value="2" id="a2" />
-                                        <label for="a2" class="address-wrapper mb-2 p-2">
-                                            <section class="mb-2">
-                                                <i class="fa fa-map-marker-alt mx-1"></i>
-                                                آدرس : استان تهران، شهر تهران، تهران، خ. پاسداران، کوچه غلامی پلاک 18،
-                                                واحد 13
+                                            <section class="col-6 mb-2">
+                                                <label for="postal_code" class="form-label mb-1">کد
+                                                    پستی</label>
+                                                <input name="postal_code" type="text"
+                                                    class="form-control form-control-sm" id="postal_code"
+                                                    placeholder="کد پستی" value="{{ old('postal_code') }}">
+                                                @error('postal_code')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <section class="mb-2">
-                                                <i class="fa fa-user-tag mx-1"></i>
-                                                گیرنده : کامران محمدی
+
+                                            <section class="col-3 mb-2">
+                                                <label for="no" class="form-label mb-1">پلاک</label>
+                                                <input name="no" type="text" class="form-control form-control-sm"
+                                                    id="no" placeholder="پلاک" value="{{ old('no') }}">
+                                                @error('no')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <section class="mb-2">
-                                                <i class="fa fa-mobile-alt mx-1"></i>
-                                                موبایل گیرنده : 09129998877
+
+                                            <section class="col-3 mb-2">
+                                                <label for="unit" class="form-label mb-1">واحد</label>
+                                                <input name="unit" type="text" class="form-control form-control-sm"
+                                                    id="unit" placeholder="واحد" value="{{ old('unit') }}">
+                                                @error('unit')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
                                             </section>
-                                            <a class="" href="#"><i class="fa fa-edit"></i> ویرایش آدرس</a>
-                                            <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
-                                        </label>
 
+                                            <section class="border-bottom mt-2 mb-3"></section>
 
-                                        <section class="address-add-wrapper">
-                                            <button class="address-add-button" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#add-address"><i class="fa fa-plus"></i> ایجاد آدرس
-                                                جدید</button>
-                                            <!-- start add address Modal -->
-                                            <section class="modal fade" id="add-address" tabindex="-1"
-                                                aria-labelledby="add-address-label" aria-hidden="true">
-                                                <section class="modal-dialog">
-                                                    <section class="modal-content">
-                                                        <section class="modal-header">
-                                                            <h5 class="modal-title" id="add-address-label"><i
-                                                                    class="fa fa-plus"></i> ایجاد آدرس جدید</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </section>
-                                                        <section class="modal-body">
-                                                            <form class="row" action="#">
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="province"
-                                                                        class="form-label mb-1">استان</label>
-                                                                    <select class="form-select form-select-sm"
-                                                                        id="province">
-                                                                        <option selected>استان را انتخاب کنید</option>
-                                                                        <option value="1">آذربایجان شرقی</option>
-                                                                        <option value="2">آذربایجان غربی</option>
-                                                                        <option value="3">تهران</option>
-                                                                    </select>
-                                                                </section>
-
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="city"
-                                                                        class="form-label mb-1">شهر</label>
-                                                                    <select class="form-select form-select-sm"
-                                                                        id="city">
-                                                                        <option selected>استان را انتخاب کنید</option>
-                                                                        <option value="1">تبریز</option>
-                                                                        <option value="2">میانه</option>
-                                                                        <option value="3">آذرشهر</option>
-                                                                    </select>
-                                                                </section>
-                                                                <section class="col-12 mb-2">
-                                                                    <label for="address"
-                                                                        class="form-label mb-1">نشانی</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm" id="address"
-                                                                        placeholder="نشانی">
-                                                                </section>
-
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="postal_code" class="form-label mb-1">کد
-                                                                        پستی</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="postal_code" placeholder="کد پستی">
-                                                                </section>
-
-                                                                <section class="col-3 mb-2">
-                                                                    <label for="no"
-                                                                        class="form-label mb-1">پلاک</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="no" placeholder="پلاک">
-                                                                </section>
-
-                                                                <section class="col-3 mb-2">
-                                                                    <label for="unit"
-                                                                        class="form-label mb-1">واحد</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="unit" placeholder="واحد">
-                                                                </section>
-
-                                                                <section class="border-bottom mt-2 mb-3"></section>
-
-                                                                <section class="col-12 mb-2">
-                                                                    <section class="form-check">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            value="" id="receiver">
-                                                                        <label class="form-check-label" for="receiver">
-                                                                            گیرنده سفارش خودم هستم
-                                                                        </label>
-                                                                    </section>
-                                                                </section>
-
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="first_name" class="form-label mb-1">نام
-                                                                        گیرنده</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="first_name" placeholder="نام گیرنده">
-                                                                </section>
-
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="last_name" class="form-label mb-1">نام
-                                                                        خانوادگی گیرنده</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="last_name" placeholder="نام خانوادگی گیرنده">
-                                                                </section>
-
-                                                                <section class="col-6 mb-2">
-                                                                    <label for="mobile" class="form-label mb-1">شماره
-                                                                        موبایل</label>
-                                                                    <input type="text"
-                                                                        class="form-control form-control-sm"
-                                                                        id="mobile" placeholder="شماره موبایل">
-                                                                </section>
-
-
-                                                            </form>
-                                                        </section>
-                                                        <section class="modal-footer py-1">
-                                                            <button type="button" class="btn btn-sm btn-primary">ثبت
-                                                                آدرس</button>
-                                                            <button type="button" class="btn btn-sm btn-danger"
-                                                                data-bs-dismiss="modal">بستن</button>
-                                                        </section>
-                                                    </section>
+                                            <section class="col-12 mb-2">
+                                                <section class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="receiver"
+                                                        id="receiver">
+                                                    <label class="form-check-label" value="null" for="receiver">
+                                                        گیرنده سفارش خودم نیستم (اطلاعات زیر تکمیل شود)
+                                                    </label>
                                                 </section>
                                             </section>
-                                            <!-- end add address Modal -->
-                                        </section>
 
-                                </section>
-                            </section>
+                                            <section class="col-6 mb-2">
+                                                <label for="first_name" class="form-label mb-1">نام
+                                                    گیرنده</label>
+                                                <input type="text" name="recipient_first_name"
+                                                    class="form-control form-control-sm" id="first_name"
+                                                    placeholder="نام گیرنده" value="{{ old('recipient_first_name') }}">
+                                                @error('recipient_first_name')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
+                                            </section>
 
+                                            <section class="col-6 mb-2">
+                                                <label for="last_name" class="form-label mb-1">نام
+                                                    خانوادگی گیرنده</label>
+                                                <input type="text" name="recipient_last_name"
+                                                    class="form-control form-control-sm" id="last_name"
+                                                    placeholder="نام خانوادگی گیرنده"
+                                                    value="{{ old('recipient_last_name') }}">
+                                                @error('recipient_last_name')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
+                                            </section>
 
-                            <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
+                                            <section class="col-6 mb-2">
+                                                <label for="mobile" class="form-label mb-1">شماره
+                                                    موبایل</label>
+                                                <input type="text" name="mobile" class="form-control form-control-sm"
+                                                    id="mobile" placeholder="شماره موبایل"
+                                                    value="{{ old('mobile') }}">
+                                                @error('mobile')
+                                                    <small class="text-danger my-2">{{ $message }}</small>
+                                                @enderror
+                                            </section>
 
-                                <!-- start vontent header -->
-                                <section class="content-header mb-3">
-                                    <section class="d-flex justify-content-between align-items-center">
-                                        <h2 class="content-header-title content-header-title-small">
-                                            انتخاب نحوه ارسال
-                                        </h2>
-                                        <section class="content-header-link">
-                                            <!--<a href="#">مشاهده همه</a>-->
-                                        </section>
+                                            <section class="py-1">
+                                                <button type="submit" class="btn btn-sm btn-primary">ثبت
+                                                    آدرس</button>
+                                            </section>
+                                        </form>
                                     </section>
+                                    <hr>
+                                    @foreach (auth()->user()->addresses as $address)
+                                        <input type="radio" name="address_id" form="myForm"
+                                            value="{{ $address->id }}" id="a-{{ $address->id }}" />
+                                        <label for="a-{{ $address->id }}" class="address-wrapper mb-2 p-2">
+                                            <section class="mb-2">
+                                                <i class="fa fa-map-marker-alt mx-1"></i>
+                                                آدرس : {{ $address->address ?? '-' }}
+                                            </section>
+                                            <section class="mb-2">
+                                                <i class="fa fa-user-tag mx-1"></i>
+                                                گیرنده :
+                                                {{ $address->recipient_first_name ?? '-' }}
+                                                {{ $address->recipient_last_name ?? '-' }}
+                                            </section>
+                                            <section class="mb-2">
+                                                <i class="fa fa-mobile-alt mx-1"></i>
+                                                موبایل گیرنده: {{ $address->user->mobile ?? '-' }}
+                                            </section>
+                                            <a class="text-dark fw-bold"
+                                                href="{{ route('customer.sales-porcess.edit-address', $address->id) }}"><i
+                                                    class="fa fa-edit"></i> ویرایش آدرس</a>
+                                            <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
+                                        </label>
+                                    @endforeach
+                                    @error('address_id')
+                                        <p class="text-danger my-2">{{ $message }}</p>
+                                    @enderror
                                 </section>
-                                <section class="delivery-select ">
 
-                                    <section class="address-alert alert alert-primary d-flex align-items-center p-2"
-                                        role="alert">
-                                        <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
-                                        <secrion>
-                                            نحوه ارسال کالا را انتخاب کنید. هنگام انتخاب لطفا مدت زمان ارسال را در نظر
-                                            بگیرید.
-                                        </secrion>
-                                    </section>
-
-                                    <input type="radio" name="delivery_type" value="1" id="d1" />
-                                    <label for="d1" class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-shipping-fast mx-1"></i>
-                                            پست پیشتاز
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-calendar-alt mx-1"></i>
-                                            تامین کالا از 4 روز کاری آینده
-                                        </section>
-                                    </label>
-
-                                    <input type="radio" name="delivery_type" value="2" id="d2" />
-                                    <label for="d2" class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
-                                        <section class="mb-2">
-                                            <i class="fa fa-shipping-fast mx-1"></i>
-                                            تیپاکس
-                                        </section>
-                                        <section class="mb-2">
-                                            <i class="fa fa-calendar-alt mx-1"></i>
-                                            تامین کالا از 2 روز کاری آینده
-                                        </section>
-                                    </label>
-
-
-                                </section>
                             </section>
-
-
-
-
                         </section>
+
+
                         <section class="col-md-3">
-                            <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
+                            <section class="content-wrapper bg-white p-4 rounded-2 cart-total-price">
+                                @php
+                                    $totalProductPrice = 0;
+                                    $totalDiscount = 0;
+
+                                @endphp
+                                @foreach ($cartItems as $cartItem)
+                                    @php
+                                        $totalProductPrice += $cartItem->cartItemProductPrice() * $cartItem->number;
+                                        $totalDiscount += $cartItem->cartItemProductDiscount() * $cartItem->number;
+                                    @endphp
+                                @endforeach
+
                                 <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">قیمت کالاها (2)</p>
-                                    <p class="text-muted">398,000 تومان</p>
+                                    <p class="text-muted">قیمت کالاها {{ $cartItems->count() }}</p>
+                                    <p class="text-muted" id="total_product_price">
+                                        {{ priceFormat($totalProductPrice) }} دالر</p>
                                 </section>
 
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">تخفیف کالاها</p>
-                                    <p class="text-danger fw-bolder">78,000 تومان</p>
+                                    <p class="text-danger fw-bolder" id="total_discount">
+                                        {{ priceFormat($totalDiscount) }} دالر</p>
                                 </section>
-
                                 <section class="border-bottom mb-3"></section>
-
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder">320,000 تومان</p>
+                                    <p class="fw-bolder" id="total_price">
+                                        {{ priceFormat($totalProductPrice - $totalDiscount) }} دالر
+                                    </p>
                                 </section>
 
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">هزینه ارسال</p>
-                                    <p class="text-warning">54,000 تومان</p>
+                                    {{-- <p class="text-warning">{{ $deliveryMethods->amount }} دالر</p> --}}
                                 </section>
 
                                 <p class="my-3">
@@ -309,21 +264,217 @@
                                     <p class="fw-bold">374,000 تومان</p>
                                 </section>
 
+                                {{-- ! Start of form --}}
+                                <form action="{{ route('customer.sales-porcess.choose-address-and-delivery') }}"
+                                    id="myForm" method="POST">
+                                    @csrf
+                                </form>
+                                {{-- ! End of form --}}
+
+
                                 <section class="">
-                                    <section id="address-button" href="address.html"
-                                        class="text-warning border border-warning text-center py-2 pointer rounded-2 d-block">
-                                        آدرس و نحوه ارسال را انتخاب کن</section>
-                                    <a id="next-level" href="payment.html" class="btn btn-danger d-none">ادامه فرآیند
-                                        خرید</a>
+                                    <button type="submit" onclick="document.getElementById('myForm').submit()"
+                                        class="btn btn-sn btn-danger w-100">ادامه فرآیند
+                                        خرید</button>
                                 </section>
 
+                            </section>
+                        </section>
+
+                    </section>
+
+                    <section class="content-wrapper bg-white py-3 rounded-2 mb-4">
+
+                        <!-- start vontent header -->
+                        <section class="content-header mb-3 col-11 mx-auto">
+                            <section class="d-flex justify-content-between align-items-center">
+                                <h2 class="content-header-title content-header-title-small">
+                                    <i class="fa fa-shipping-fast mx-2"></i>انتخاب نحوه ارسال
+                                </h2>
+                                <section class="content-header-link">
+                                    <!--<a href="#">مشاهده همه</a>-->
+                                </section>
+                            </section>
+                        </section>
+                        <section class="delivery-select col-11 mx-auto">
+
+                            <section class="address-alert alert alert-primary d-flex align-items-center p-2"
+                                role="alert">
+                                <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
+                                <section>
+                                    نحوه ارسال کالا را انتخاب کنید. هنگام انتخاب لطفا مدت زمان ارسال را در نظر
+                                    بگیرید.
+                                </section>
+                            </section>
+
+                            @foreach ($deliveryMethods as $deliveryMethod)
+                                <input type="radio" name="delivery_id" form="myForm"
+                                    value="{{ $deliveryMethod->id }}" id="d-{{ $deliveryMethod->id }}" />
+                                <label for="d-{{ $deliveryMethod->id }}"
+                                    class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
+                                    <section class="mb-2">
+                                        <i class="fa fa-shipping-fast mx-1"></i>
+                                        {{ $deliveryMethod->name }}
+                                    </section>
+                                    <section class="mb-2">
+                                        <i class="fa fa-calendar-alt mx-1"></i>
+                                        تامین کالا از {{ $deliveryMethod->delivery_time }}
+                                        {{ $deliveryMethod->delivery_time_unit }} کاری آینده
+                                    </section>
+                                </label>
+                            @endforeach
+
+                            @error('delivery_id')
+                                <p class="text-danger my-2">{{ $message }}</p>
+                            @enderror
+
+                            <section class="">
+                                <button type="submit" onclick="document.getElementById('myForm').submit()"
+                                    class="btn btn-sn btn-danger my-3">ادامه فرآیند
+                                    خرید</button>
                             </section>
                         </section>
                     </section>
                 </section>
             </section>
-
         </section>
+
     </section>
     <!-- end cart -->
+@endsection
+
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#province').change(function() {
+                let element = $('#province option:selected');
+                let url = element.attr('data-url');
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function(response) {
+                        if (response.status) {
+                            let cities = response.cities;
+                            $('#city').empty();
+                            cities.map((city) => {
+                                $('#city').append($('<option/>').val(city.id).text(city
+                                    .name));
+                            });
+                        } else {
+                            errorToast('خطا پیش آمده است');
+                            console.log(error);
+
+                        }
+                    },
+                    error: function() {
+                        console.log(error);
+                        errorToast('خطا پیش آمده است');
+                    }
+                });
+
+            })
+        });
+    </script>
+
+    <script>
+        $("#receiver").on('click', function() {
+            $("#receiver").val("checked");
+        })
+    </script>
+
+    <script>
+        setTimeout(() => {
+            $('.toast').hide();
+        }, 7000);
+
+        $(".btn-close").on('click', function() {
+            $('.toast').hide();
+        });
+    </script>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+
+            bill();
+
+            $('.cart-number').on('click', function() {
+                bill();
+            })
+
+        });
+
+        function bill() {
+            let total_product_price = 0;
+            let total_discount = 0;
+            let total_price = 0;
+
+            $('.number').each(function() {
+
+                let productPrice = parseFloat($(this).data('product-price'));
+                let productDiscount = parseFloat($(this).data('product-discount'));
+                let number = parseFloat($(this).val());
+
+                total_product_price += productPrice * number;
+                total_discount += productDiscount * number;
+            });
+
+            total_price = total_product_price - total_discount;
+
+            $('#total_product_price').html(toFarsiNumber(total_product_price));
+            $('#total_discount').html(toFarsiNumber(total_discount));
+            $('#total_price').html(toFarsiNumber(total_price));
+        }
+
+        function toFarsiNumber(number) {
+            const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            // add comma
+            number = new Intl.NumberFormat().format(number);
+            //convert to persian
+            return number.toString().replace(/\d/g, x => farsiDigits[x]);
+        }
+    </script>
+
+
+
+    <script>
+        setTimeout(() => {
+            $('.toast').hide();
+        }, 7000);
+
+        $(".btn-close").on('click', function() {
+            $('.toast').hide();
+        });
+    </script>
+
+
+
+    {{-- !Toast --}}
+    <script>
+        $('.product-add-to-favorite button').click(function() {
+            var url = $(this).attr('data-url');
+            var element = $(this);
+            $.ajax({
+                url: url,
+                success: function(result) {
+                    if (result.status == 1) {
+                        $(element).children().first().addClass('text-danger');
+                        $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
+                        $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+                    } else if (result.status == 2) {
+                        $(element).children().first().removeClass('text-danger')
+                        $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
+                        $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
+                    } else if (result.status == 3) {
+                        $('.toast-section').removeClass('d-none');
+                        $('.toast-section').addClass('d-flex');
+                        $('.toast').toast('show');
+                    }
+                }
+            })
+        })
+    </script>
 @endsection

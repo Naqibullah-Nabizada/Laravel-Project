@@ -16,6 +16,7 @@
 
 
     @include('admin.alerts.toast.success')
+    @include('admin.alerts.toast.error')
     @include('admin.alerts.alert-section.success')
     @include('admin.alerts.sweetalert.success')
 

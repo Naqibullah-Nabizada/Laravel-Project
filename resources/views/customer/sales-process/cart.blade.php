@@ -29,8 +29,7 @@
                         <section class="row mt-4">
                             <section class="col-md-9 mb-3">
 
-                                <form id="cart_item" method="POST"
-                                    class="content-wrapper bg-white p-3 rounded-2">
+                                <form id="cart_item" method="POST" class="content-wrapper bg-white p-3 rounded-2">
                                     @csrf
                                     @php
                                         $totalProductPrice = 0;
@@ -65,8 +64,7 @@
                                                 @endif
 
                                                 <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i>
-                                                    <span>کالا
-                                                        موجود در انبار</span>
+                                                    <span>کالا موجود در انبار</span>
                                                 </p>
                                                 <section>
                                                     <section class="cart-product-number d-inline-block ">
@@ -104,7 +102,7 @@
                             <section class="col-md-3">
                                 <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
                                     <section class="d-flex justify-content-between align-items-center">
-                                        <p class="text-muted">قیمت کالاها {{ $cartItem->count() }}</p>
+                                        <p class="text-muted">قیمت کالاها</p>
                                         <p class="text-muted" id="total_product_price">
                                             {{ priceFormat($totalProductPrice) }} دالر</p>
                                     </section>
@@ -114,6 +112,7 @@
                                         <p class="text-danger fw-bolder" id="total_discount">
                                             {{ priceFormat($totalDiscount) }} دالر</p>
                                     </section>
+
                                     <section class="border-bottom mb-3"></section>
                                     <section class="d-flex justify-content-between align-items-center">
                                         <p class="text-muted">جمع سبد خرید</p>

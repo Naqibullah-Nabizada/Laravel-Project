@@ -45,19 +45,20 @@
                                         <p class="text-danger my-2">{{ $message }}</p>
                                     @enderror
                                 </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label class="form-label">کاربر</label>
-                                    <select name="user_id" id="users" class="form-control form-control-sm" disabled>
-                                        <option>انتخاب کاربر</option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if (old('user_id', $user->id) == $copan->user->id) selected @endif>{{ $user->fullName }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
-                                        <p class="text-danger my-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label class="form-label">کاربر</label>
+                                        <select name="user_id" id="users" class="form-control form-control-sm" disabled>
+                                            <option>انتخاب کاربر</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}"
+                                                    @if (old('user_id', $user->id) == $copan->user->id) selected @endif>{{ $user->fullName }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('user_id')
+                                            <p class="text-danger my-2">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">کد کوپن</label>
@@ -94,7 +95,8 @@
                                 <div class="form-group col-12 col-md-6">
                                     <label class="form-label">سقف تخفیف</label>
                                     <input type="text" name="discount_ceiling" class="form-control form-control-sm"
-                                        placeholder="سقف تخفیف" value="{{ old('discount_ceiling', $copan->discount_ceiling) }}">
+                                        placeholder="سقف تخفیف"
+                                        value="{{ old('discount_ceiling', $copan->discount_ceiling) }}">
                                     @error('discount_ceiling')
                                         <p class="text-danger my-2"> {{ $message }}</p>
                                     @enderror

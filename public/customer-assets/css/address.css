@@ -149,3 +149,7 @@
 .address-alert {
     font-size: 0.8rem;
 }
+
+small.text-danger.my-2{
+    font-size: .85rem;
+}

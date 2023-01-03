@@ -1,17 +1,17 @@
 @if (session('toast-error'))
-    <section class="toast" data-delay="5000">
-        <section class="toast-header">خطا!</section>
-        <section class="toast-body">
-            <span class="ml-auto">{{ session('toast-error') }}</span>
-            <button type="button" class="mr-2 close" data-dismiss="toast">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <section class="toast position-fixed flex-row-reverse" data-delay="7000"
+        style="opacity: 100% !important; left: 0; top: 4rem; width: 20rem; max-width: 80%; ">
+        <section class="toast-body bg-danger">
+            <div class="toast-header">
+                <strong class="me-auto">فروشگاه آمازون</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <strong class="ml-auto">
+                    <span class="ml-auto text-white">{{ session('toast-error') }}</span>
+                </strong>
+            </div>
         </section>
     </section>
 
-    <script>
-        $(document).ready(function() {
-            $(".toast").toast('show');
-        });
-    </script>
 @endif

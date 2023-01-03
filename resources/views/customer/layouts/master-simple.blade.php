@@ -16,7 +16,8 @@
 
     @include('customer.layouts.script')
     @yield('script')
-
+    @include('admin.alerts.toast.success')
+    @include('admin.alerts.toast.error')
     @include('admin.alerts.sweetalert.success')
     @include('admin.alerts.sweetalert.error')
 </body>

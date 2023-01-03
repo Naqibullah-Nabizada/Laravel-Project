@@ -10,7 +10,8 @@
 
     @include('customer.layouts.header')
 
-
+    @include('admin.alerts.toast.success')
+    @include('admin.alerts.toast.error')
     @include('admin.alerts.sweetalert.success')
     @include('admin.alerts.sweetalert.error')
 

@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
 use App\Http\Controllers\Admin\Content\PostController;
-use App\Http\Controllers\Admin\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\CommentController;
@@ -41,6 +40,7 @@ use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController as SalesProcessAddressController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
+use App\Http\Controllers\Customer\SalesProcess\PaymentController as SalesProcessPaymentController;
 use App\Http\Controllers\Customer\SalesProcess\ProfileCompletionController;
 use Illuminate\Support\Facades\Route;
 
@@ -338,8 +338,20 @@ Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCa
 
 
 //Address
-Route::get('/address-and-delivery', [SalesProcessAddressController::class, 'addressAndDelivery'])->name('customer.sales-porcess.address-and-delivery');
-Route::post('/add-address', [SalesProcessAddressController::class, 'addAddress'])->name('customer.sales-porcess.add-address');
+Route::middleware('profile.completion')->group(function () {
+
+    //! Address
+    Route::get('/address-and-delivery', [SalesProcessAddressController::class, 'addressAndDelivery'])->name('customer.sales-porcess.address-and-delivery');
+    Route::post('/add-address', [SalesProcessAddressController::class, 'addAddress'])->name('customer.sales-porcess.add-address');
+    Route::get('/edit-address/{id}', [SalesProcessAddressController::class, 'EditAddress'])->name('customer.sales-porcess.edit-address');
+    Route::put('/update-address/{id}', [SalesProcessAddressController::class, 'UpdateAddress'])->name('customer.sales-porcess.update-address');
+    Route::get('/get-cities/{province}', [SalesProcessAddressController::class, 'getCities'])->name('customer.sales-porcess.get-cities');
+    Route::post('/choose-address-and-delivery', [SalesProcessAddressController::class, 'chooseAddressAndDelivery'])->name('customer.sales-porcess.choose-address-and-delivery');
+
+    //! Payment
+    Route::get('/payment', [SalesProcessPaymentController::class, 'payment'])->name('customer.sales-porcess.payment');
+    Route::post('/copan-discount', [SalesProcessPaymentController::class, 'copanDiscount'])->name('customer.sales-porcess.copan-discount');
+});
 
 
 //profile completion

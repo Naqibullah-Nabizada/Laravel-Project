@@ -463,12 +463,12 @@
                                 </section>
 
                                 @foreach ($product->activeComments() as $activeComment)
-                                    <section class="product-comment">
+                                    <section class="product-comment mb-3 rounded">
                                         <section class="product-comment-header d-flex justify-content-start">
                                             <section class="product-comment-date text-dark">
                                                 {{ jalaliDate($activeComment->created_at) }}</section>
                                             <section class="product-comment-title">
-                                                {{ $activeComment->user->first()->fullName ?? 'ناشناس' }}
+                                                {{ $activeComment->user->fullName ?? 'ناشناس' }}
                                             </section>
                                         </section>
                                         <section
